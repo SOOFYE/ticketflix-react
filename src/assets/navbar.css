@@ -1,0 +1,33 @@
+ nav{
+    overflow:hidden;
+    height:5rem;
+    /* border:2px solid */
+} 
+
+
+
+.navbarLogo{
+    width:10rem;
+    height:10rem;
+    /* border:2px solid */
+    
+}
+
+.imageContainer{
+    margin-left:2rem;
+    margin-top:-2.8rem;
+    display:inline-block;
+    float:left;
+    /* border:2px solid; */
+}
+
+.userIcon{
+    float:right;
+    display:inline-block;
+    margin-top:1rem;
+    margin-right:3rem;
+    color:white;
+    cursor:pointer;
+    /* border:2px solid; */
+   
+ } 

@@ -1,0 +1,54 @@
+
+
+
+.movieInfo{
+    margin-top:15rem;
+    margin-left:2rem;
+    /* border:2px solid; */
+    display:block;
+    max-width:100vw;
+    text-align:left;
+}
+
+.movieInfo > h2{
+    display:inline;
+}
+
+.booknow{
+    float:right;
+    margin-right:1rem;
+}
+
+.addInfo {
+ margin-top:.5rem;
+ display:block;
+ color: white;
+ /* border:2px solid; */
+} 
+
+.category {
+    display:inline-block;
+       
+}
+
+.square{
+    display:inline;
+    margin-left:1rem;
+}
+
+.time {
+    display:inline-block;
+    margin-left:1rem;
+}
+
+.age {
+    border: 1px solid;
+    border-radius:7px;
+    display:inline-block;
+    margin-left:1rem;
+    padding:4px;
+    padding-top:6px;
+    padding-bottom:6px;
+    text-align:center;
+    font-size:10px;
+}
