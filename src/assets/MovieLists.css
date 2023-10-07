@@ -1,0 +1,130 @@
+.tabs{
+    margin-top:1rem;
+    padding:1rem;
+    display:flex;
+    color:white;
+    justify-content:center;
+    gap:4rem;
+    font-size:1.3rem;
+
+}
+
+
+.tabs > button {
+    position: relative;
+}
+
+.tabs > button:hover,
+.tabs > button:focus{
+    color:#facc15;
+    outline: none; /* Only if you provide an alternative focus state */
+    /* Your additional hover/focus styles */
+}
+
+.tabs > button:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;  /* Adjust if needed */
+    left: 0;
+    right: 0;
+    height: 2px;  /* Adjust for desired thickness */
+    background-color: #facc15; /* Or whichever color you prefer */
+}
+
+
+.active{ 
+    content: '';
+    position: absolute;
+    top: 0;  /* Adjust if needed */
+    left: 0;
+    right: 0;
+    height: 2px;  /* Adjust for desired thickness */
+    background-color: #facc15; /* Or whichever color you prefer */
+    color:#facc15;
+}
+
+
+
+.movieLists{
+    margin-top:2rem;
+    display:grid;
+    grid-template-columns: auto auto auto auto;
+    column-gap: 2rem; 
+    row-gap: 2rem;
+    align-items: center;
+    justify-items: center;
+}
+
+.singleMovie{
+    /* padding:0rem,1rem; */
+}
+
+.singleMovie:hover {
+    cursor:pointer;
+}
+    
+
+.singleMovie > img {
+    max-height: 400px;
+    max-width: 400px;
+    margin-bottom:1rem;
+    transition: transform 0.5s ease-in-out;
+}
+
+.singleMovie:hover>img{
+    transform: scale(1.04);
+}
+
+
+.singleMovieInfo{
+    /* margin-top:.5rem; */
+    align-text:left;
+    display:flex;
+    justify-content:start;
+    /* border:2px solid red; */
+    max-height:3rem;
+    
+
+    
+}
+
+.singleMovieInfo > div > h3 {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    text-align:left;
+    line-height: 1.1; /* Adjust this value to control spacing between lines */
+    /* border:2px solid white */
+}
+
+.singleMovieInfo > div > p {
+    text-align:left;
+    /* border:2px solid white */
+}
+
+
+.singleMovieInfo >div {
+    max-width:13rem;
+    /* border: 3px solid white; */
+
+}
+
+.wholePage{
+    padding-bottom:10rem;
+}
+
+.viewmore{
+    margin-top:3rem;
+}
+
+@media screen and (max-width:800px){
+    .movieLists{
+        margin-top:2rem;
+        display:grid;
+        grid-template-columns: auto ;
+        column-gap: 0.5rem;
+        align-items: center;
+        justify-items: center;
+    }
+}
+

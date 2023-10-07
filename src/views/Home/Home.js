@@ -1,7 +1,8 @@
 import React from 'react'
 import Carasoule from './Carasoule'
 import QuickBook from './QuickBook'
-import WhatsOn from './WhatsOn'
+import MovieLists from './MovieLists'
+
 function Home() {
   return (
     <div className='mt-3'>
@@ -11,7 +12,7 @@ function Home() {
     </div> */}
      <Carasoule/> 
      <QuickBook/>
-    {/* <WhatsOn/> */}
+    <MovieLists/>
     
     
     </div>

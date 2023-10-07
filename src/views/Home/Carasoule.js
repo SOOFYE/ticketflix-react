@@ -44,7 +44,7 @@ function Carasoule() {
     };
 
     return (
-        <Slider {...settings} className="w-full">
+        <Slider {...settings} className="">
             <div className="bg-blue-400 h-96 ">
                 <div className='movieInfo'>
                 <h2 className="text-4xl font-bold text-white">Movie Title</h2>
