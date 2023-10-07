@@ -1,0 +1,334 @@
+.page{
+    background-color: #131313;
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+
+.infoColumn,
+.mediaColumn {
+    flex: 1; 
+    padding: 1rem;
+}
+
+.infoColumn{
+
+    max-width:25rem;
+    border:2px solid white
+}
+
+.mediaColumn{
+    border:2px solid white
+}
+
+.infoColumn h1{
+    font-size:3rem;
+    text-align:left;
+    color:white;
+    font-weight:600;
+    /* border:2px solid white */
+    
+}
+
+.infoColumn .language{
+    color:#949292;
+
+}
+
+
+.language{
+    text-align:left;
+}
+
+.Genre_date {
+    text-align: left;
+    margin-top:.4rem;
+}
+
+.release{
+    color:#949292;
+
+    white-space: nowrap;
+}
+
+.duration{
+    color:#949292;
+    text-align:left;
+    margin-top:.4rem;
+}
+
+
+.synopsisInfo {
+    text-align: left;
+    color:#949292
+    
+}
+
+.Synopsis  {
+    margin-top:1rem;
+}
+
+.Synopsis > h3 {
+    text-align: left;
+    font-size:1.8rem;
+    color:white;
+}
+
+
+.posterContainer>img{
+    width:100%;
+    max-height:25rem;
+    object-fit: cover; /* Maintain aspect ratio */
+}
+
+.mediaColumn {
+    position: relative;
+  }
+  
+  .posterContainer {
+    position: relative;
+  }
+  
+  .posterContainer img {
+    width: 100%; /* or your desired width */
+    height: auto;
+  }
+  
+  .trailerButton {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: #facc15;
+    color: black;
+    font-weight:400;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .trailerButton:hover{
+    background-color: #e0e0e0;
+  }
+  
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup > iframe{
+    width:560px;
+    height:315px;
+  }
+  
+  .closeButton {
+    margin-top: 10px;
+    background-color: #facc15;
+    color: black;
+    font-weight:400;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    width:8rem;
+  }
+
+
+  .date_tabs {
+    display: flex;
+    align-items: center;
+    overflow-x: auto; 
+    overflow-y: hidden;
+    white-space: nowrap; 
+    scrollbar-width: thin;
+    scrollbar-color: #facc15 #444; /* thumb and track color */
+    margin-top: 1rem;
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background-color: #444;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background-color: #facc15;
+        border-radius: 4px;
+    }
+}
+
+
+
+.date_buttons {
+    background-color: #facc15; /* Or another color */
+    border: none;
+    padding: 0.8rem;
+    margin: 0;
+    cursor: pointer;
+    width: 100px; /* Set a fixed width */
+    overflow: hidden; /* Hide overflowed content */
+    flex-shrink: 0;  /* Prevent shrinking */
+    transition: background-color 0.3s ease;
+    
+}
+
+.date_buttons:hover {
+    background-color: #e0e0e0; /* Color on hover */
+}
+
+.separator {
+    height: 50%; /* Adjust as needed */
+    border-left: 1px solid white; /* Or another color */
+    margin: 0 10px; /* Adjust as needed */
+}
+
+.date, .day {
+    margin: 0;
+}
+
+.day{
+    font-size:0.8rem;
+    margin-top:-0.3rem;
+}
+
+.timings{
+    background-color:black;
+    padding:0.5rem;
+    display: flex;
+    align-items: center; 
+    flex-wrap: wrap;
+    white-space: nowrap; 
+    scrollbar-width: thin;
+    scrollbar-color: #facc15 #444; /* thumb and track color */
+    margin-top: 1rem;
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background-color: #444;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background-color: #facc15;
+        border-radius: 4px;
+    }
+}
+
+.timingContainer {
+    margin: 0;
+    cursor: pointer;
+    width: 100px; /* Set a fixed width */
+    overflow: hidden; /* Hide overflowed content */
+    flex-shrink: 0;  /* Prevent shrinking */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding:1rem;
+
+       
+}
+
+.timingContainer:hover .time{
+    color:white
+}
+
+.time{
+    color:#facc15;
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 1px; /* Adjusts space between text and underline */
+    transition: color 0.3s ease;
+    
+}
+
+.ticketType{
+    color:white;
+    text-align:center;
+    font-size:0.8rem;
+}
+
+.timediv{
+    margin-top:1rem;
+    background-color:black;
+}
+
+.timediv > h1 {
+    color:white;
+    font-size:1.5rem;
+    font-weight:600;
+    text-align:left;
+    margin-left:1rem;
+    padding-top:1rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .page {
+        flex-direction: column;
+    }
+
+    .mediaColumn{
+        flex:1;
+    }
+
+    iframe{
+        padding:5rem;
+        height:400px;
+        
+    }
+
+    .date_tabs {
+        overflow-x: auto; 
+        overflow-y: hidden;
+        white-space: nowrap; 
+        scrollbar-width: thin;
+        scrollbar-color: #facc15 #444;
+        
+        ::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background-color: #444;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background-color: #facc15;
+            border-radius: 4px;
+        }
+    }
+
+    .timings {
+        overflow-x: auto; 
+        overflow-y: hidden;
+        flex-wrap: nowrap;
+        white-space: nowrap; 
+        scrollbar-width: thin;
+        scrollbar-color: #facc15 #444;
+        
+        ::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background-color: #444;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background-color: #facc15;
+            border-radius: 4px;
+        }
+    }
+
+  
+}
