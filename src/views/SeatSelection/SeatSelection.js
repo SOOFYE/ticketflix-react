@@ -2,10 +2,13 @@
 import React, { useState } from 'react';
 import '../../assets/seatselection.css'
 import Modal from './Modal';
+import LoginSignupPopup from '../SignInUp/LoginSignupPopup';
 
 
 
 function SeatSelection() {
+
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
@@ -40,6 +43,10 @@ function SeatSelection() {
     
         // Proceed to the next step
         console.log('Proceed to the next step...');
+
+        setIsPopupVisible(true)
+
+
     };
 
     const handleSeatClick = (seatType, rowIndex, seatIndex) => {
@@ -65,6 +72,10 @@ function SeatSelection() {
     return (
         <>
         
+        <LoginSignupPopup
+                isVisible={isPopupVisible}
+                onClose={() => setIsPopupVisible(false)}
+            />
 
 {isModalVisible && (
                 <Modal 
