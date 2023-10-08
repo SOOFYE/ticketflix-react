@@ -125,34 +125,6 @@ function SingleMovie() {
   <p className='time'>12:00 PM</p>
   <p className='ticketType'>2D</p>
   </div>
-  <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
-  <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
-  <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
-  <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
-  <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
-  <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
-  <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
 </div>
 
       </div>

@@ -1,0 +1,70 @@
+.ticketPage{
+    color:white;
+    padding:10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.choose{
+    text-align:left;
+    width: 100%;
+    font-size:2rem;
+    border-bottom:1px solid;
+    margin-bottom:3rem;
+    padding-bottom:1rem;
+}
+
+
+.ticketHeadings{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:10rem;
+    font-size:1.5rem;
+}
+
+.ticketRows{
+    margin-top:1rem;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:10rem;
+    font-size:1.2rem;
+}
+
+.confirmTickets{
+    margin-top:2rem;
+    width:100%;
+    border-top:1px solid white;
+    border-bottom:1px solid white;
+    padding:1rem 1rem;
+    display: flex;
+    align-items: flex-end;  /* Aligns items to the top */
+    justify-content: flex-end; /* Aligns items to the left */
+    gap: 20px; /* Space between .priceShow and .confirmButton */
+}
+
+.priceShow{
+    display: flex;
+    flex-direction: column; /* Stacks the p elements vertically */
+    align-items: center; /* Aligns p elements to the left */
+    gap: 5px; /* Space between p elements */
+}
+
+#totalText{
+    font-size:0.8 rem;
+    margin: 0; 
+}
+
+#priceText{
+    font-size:1.8rem;
+    margin: 0; 
+}
+
+.confirmButton{
+    align-self: center;
+    padding:1rem;
+    border-radius:2rem;
+    background-color:#facc15;
+    margin-top:1rem;
+    color:black;
+}
