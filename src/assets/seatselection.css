@@ -1,0 +1,212 @@
+.seatSelectionWrapper {
+    text-align: center;
+    color:white;
+}
+
+.seatSelectionHeader h1,
+.seatSelectionHeader p {
+    margin: 0.5rem 0;
+}
+
+.screen {
+    height: 50px;
+    background-color: #ddd;
+    border-bottom-left-radius: 50% 80%;
+    border-bottom-right-radius: 50% 80%;
+    margin: 2rem 0;
+    position: relative;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, #ddd, #eee);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color:black;
+}
+
+.seatSelection {
+    margin-bottom: 2rem;
+}
+
+.standardSeats,
+.silverSeats,
+.goldSeats {
+    margin-bottom: 2rem;
+}
+
+h2 {
+    margin-bottom: 1rem;
+}
+
+.seatsKey{
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    align-content:center
+}
+
+.seatGrid {
+    display: inline-block;
+    
+}
+
+.seatRow {
+    display: flex;
+    align-items: center;
+    gap:0.6rem;
+
+}
+
+.rowLabel {
+    margin-right: 1rem;
+    font-weight: bold;
+}
+
+.seat {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    background-color:#facc15;
+    margin: 0.2rem;
+    margin-bottom: 0.6rem; /* Vertical gap */
+
+}
+
+.seatsKey> .key-available{
+    background-color: transparent;
+    border:2px solid #facc15;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.seatsKey> .key-occupied{
+    background-color: rgba(250, 172, 21, 0.3);
+    border:2px solid #facc15;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.seatsKey> .key-selected{
+    background-color: #facc15;
+    border:2px solid #facc15;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.SeattypeHeader{
+    font-size:2rem;
+}
+
+
+
+/* Additional CSS for different seat types */
+
+.standardSeats .seat {
+    background-color: transparent;
+    border:2px solid #facc15;
+    
+}
+
+
+.silverSeats .seat {
+    background-color: transparent;
+    border:2px solid #facc15; 
+   
+}
+
+
+.goldSeats .seat {
+    background-color: transparent;
+    border:2px solid #facc15;
+}
+
+.standardSeats .occupied,
+.silverSeats .occupied,
+.goldSeats .occupied{
+    background-color: rgba(250, 172, 21, 0.3);
+    border:2px solid #facc15;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.standardSeats .selected ,
+.goldSeats .selected,
+.silverSeats .selected {
+    background-color: #facc15;
+    border:2px solid #facc15; 
+   
+}
+
+/* Example on hover effect */
+.seat:hover {
+    background-color: #facc15;
+}
+
+
+
+#selectedMovieTitle{
+    font-size:2rem;
+}
+
+#selectedMovieTitle > #lang{
+    font-size:1rem;
+    color:gray;
+}
+
+#selectedDate{
+    font-size:1.4rem;
+}
+
+#selectedTime{
+    font-size:1.2rem;
+}
+
+
+.selectedSeatsDisplay{
+    margin-top:2rem;
+    display:flex;
+    justify-content:center;
+    gap:1rem;
+    align-content:center
+}
+
+#selectedSeatShow{
+    font-weight: 100;
+    font-size: 0.9rem;
+    width: 600px;
+    height:50px;
+    /* white-space: nowrap; */
+    overflow-x: hidden;
+    overflow-y:auto;
+    scrollbar-width: thin;
+    scrollbar-color: #facc15 #444;
+    word-wrap: break-word; 
+    text-overflow: ellipsis;
+    /* Styles for Webkit scrollbar */
+    ::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background-color: #444;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background-color: #facc15;
+        border-radius: 4px;
+    }
+}
+
+.nextButton {
+    /* position:fixed;
+    z-index:100; */
+    display:inline-block;
+    padding: 10px 20px;
+    background-color: #facc15; 
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width:10rem; 
+    color:black;
+    font-weight:700;
+}

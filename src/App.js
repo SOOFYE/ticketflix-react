@@ -5,6 +5,7 @@ import Home from './views/Home/Home';
 import SingleMovie from './views/Single/SingleMovie';
 import { Ticket } from './assets/svg';
 import TicketsSelection from './views/TicketQuantity/TicketsSelection';
+import SeatSelection from './views/SeatSelection/SeatSelection';
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
     <Navbar/>
     {/* <Home/> */}
     {/* <SingleMovie/> */}
-    <TicketsSelection/>
+    {/* <TicketsSelection/> */}
+    <SeatSelection/>
     </div>
   );
 }
