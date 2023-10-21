@@ -240,11 +240,11 @@
        
 }
 
-.timingContainer:hover .time{
+.timingContainer:hover .timeP{
     color:white
 }
 
-.time{
+.timeP{
     color:#facc15;
     border-bottom: 2px solid currentColor;
     padding-bottom: 1px; /* Adjusts space between text and underline */

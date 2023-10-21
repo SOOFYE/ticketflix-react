@@ -110,19 +110,19 @@ function SingleMovie() {
 <h1>SHOW TIMINGS</h1>
 <div className="timings">
   <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
+  <p className='timeP'>12:00 PM</p>
   <p className='ticketType'>2D</p>
   </div>
   <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
+  <p className='timeP'>12:00 PM</p>
   <p className='ticketType'>2D</p>
   </div>
   <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
+  <p className='timeP'>12:00 PM</p>
   <p className='ticketType'>2D</p>
   </div>
   <div className='timingContainer'>
-  <p className='time'>12:00 PM</p>
+  <p className='timeP'>12:00 PM</p>
   <p className='ticketType'>2D</p>
   </div>
 </div>

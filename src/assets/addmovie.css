@@ -1,0 +1,242 @@
+/* addmovie.css */
+
+
+.form-container{
+    margin-top:2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1rem;
+    margin-left:3rem;
+}
+
+.form-group label {
+    margin-right: 1rem;
+    min-width: 150px; /* Adjust this value to control the width of the label area */
+    color:rgba(215,213,211,255);
+    font-size:1.4rem;
+    font-family: 'Kanit'
+}
+
+.form-group input::placeholder {
+    color: gray;  /* Change color to your preference */
+}
+
+.form-group textarea::placeholder {
+    color: gray;  /* Change color to your preference */
+}
+
+.form-group input,
+.form-group textarea,
+.form-group .react-select-container,
+.form-group .react-select__control {
+    /* flex-grow: 0.5; */
+    max-width: 300px; /* Adjust this value to control the maximum width of the input area */
+    width: 100%;
+    border-radius:0.2rem;
+    border:2px solid rgba(51,52,53,255);
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    background-color:rgba(51,52,53,255);
+    color:rgba(215,213,211,255);
+    padding-left:0.5rem;
+
+
+}
+
+
+/* Styles for react-select dropdown */
+.react-select-container,
+.react-select__control {
+    width: 100%;
+}
+
+/* Styles for the submit button */
+input[type="submit"] {
+    margin-bottom: 1rem 
+}
+
+
+.form-group .hours-input,
+.form-group .mins-input {
+    width: 7rem !important;
+    margin-right: 10px !important;
+}
+
+.date-button {
+    color: rgba(215,213,211,255);
+    font-size: 1.1rem;
+    font-family: 'Kanit';
+    background-color: rgba(144,122,34,255);  /* Adjust to match your theme */
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom:1rem;
+    margin-left:2rem;
+  }
+  
+  .date-button:hover {
+    background-color: white;  /* Adjust to match your theme */
+    color:rgba(32,32,32,255)
+    
+  }
+  
+  .remove-button {
+    color: white;
+    font-size: 0.6rem;
+    margin-left: 10px;
+    font-family: 'Kanit';
+    background-color: rgba(173,32,32,255);  /* Adjust to match your theme */
+    border: none;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .remove-button:hover {
+    background-color: #d00;  /* Adjust to match your theme */
+  }
+  
+  .form-group-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    
+  }
+  
+  .form-group-header, .form-group-timings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 0.5rem;  /* Add some spacing between date and timings */
+  }
+  
+  .timing-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-around;
+
+  }
+
+
+  
+  .timing-group:last-child {
+    margin-right: 4rem;  /* Remove margin from last timing group */
+  }
+
+  .date-inn{
+    width:11rem;
+  }
+
+
+  .movie-submit-button{
+    width:100vw;
+    padding:1rem;
+    color:rgba(215,213,211,255);
+    background-color:rgba(144,122,34,255);
+    font-size:2rem;
+    font-family:'Kanit';
+    margin-bottom:1rem;
+    transition: background-color 0.3s;
+  }
+
+  .movie-submit-button{
+
+  }
+
+  @media (max-width: 1380px) {
+    .form-container {
+        margin-top: 1rem;
+    }
+
+    .form-group-date,
+    .form-group-header,
+    .form-group-timings,
+    .timing-group {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 1rem;
+    }
+
+    .timing-group label {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+   
+  
+    .date-button,
+    .remove-button {
+        margin-bottom: 1rem;
+        margin-top:1rem;
+        font-size:0.9rem;
+        padding:0.4rem;
+    }
+}
+
+  @media (max-width: 768px) {
+    .form-container {
+        margin-top: 1rem;
+    }
+
+    .form-group,
+    .form-group-date,
+    .form-group-header,
+    .form-group-timings,
+    .timing-group {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 1rem;
+    }
+
+    .form-group label,
+    .timing-group label {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group .react-select-container,
+    .form-group .react-select__control,
+    .timing-group input {
+        /* max-width: none; */
+        width: calc(100% - 2rem); /* subtracting the margin-left */
+    }
+
+    .form-group .hours-input,
+    .form-group .mins-input,
+    .timing-group:last-child {
+        margin-right: 0;
+        margin-top:1rem;
+    }
+
+    .date-button,
+    .remove-button {
+        margin-bottom: 1rem;
+        margin-top:1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-group label,
+    .timing-group label {
+        font-size: 1.2rem;
+    }
+
+    .date-button,
+    .remove-button {
+        font-size: 1.2rem;
+        padding: 0.4rem 0.8rem;
+        margin-top:1rem;
+    }
+}

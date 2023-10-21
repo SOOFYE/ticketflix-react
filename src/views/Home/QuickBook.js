@@ -23,12 +23,14 @@ function QuickBook() {
         borderColor: 'black', // Black border on hover
         cursor:'pointer',
       },
+      fontFamily:'Kanit'
     }),
     menu: (provided) => ({
       ...provided,
       border: '1px solid black', // Black border for the menu (options dropdown)
       maxHeight: 200, // Maximum height of the dropdown
       overflowY: 'auto', // Enable vertical scrolling
+      fontFamily:'Kanit'
     }),
     placeholder: (provided)=>({
       ...provided,
@@ -84,10 +86,10 @@ function QuickBook() {
   ];
 
   return (
-    <div className='quickbookGrid  bg-yellow-400'>
+    <div className='quickbookGrid'>
 
   <div>
-    <h1 className='text-2xl font-bold'>Quick Book {Ticket()} </h1>
+    <h1 className='quickbookText'>Quick Book {Ticket()} </h1>
   </div>
 
   <div>

@@ -1,16 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Carasoule from './Carasoule'
 import QuickBook from './QuickBook'
 import MovieLists from './MovieLists'
+import axios from 'axios'
 
 function Home() {
+
+  const [movieList,setMovieList] = useState([{}]);
+  const [movieStatus,setMovieStatus] = useState('nowshowing')
+
+  const fetchData = async ()=>{
+    const data = await axios.get(`URL?status=${movieStatus}`);
+    setMovieList(data)
+
+  }
+
+
+
+  useEffect(()=>{
+    console.log('hellow world')
+  },[])
+
+
   return (
     <div className='mt-3'>
-
-    {/* <div id="nowshowing" className='text-6xl font-black '>
-        What's New on Screen
-    </div> */}
-     <Carasoule/> 
+     <Carasoule movieList={movieList}/> 
      <QuickBook/>
     <MovieLists/>
     

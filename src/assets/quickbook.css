@@ -3,8 +3,14 @@
     display:grid;
     grid-template-columns: auto auto auto auto auto;
     column-gap: 1rem;
+    background-color:#facc15
 }
 
+.quickbookText{
+    font-size:2rem;
+    font-family:'Kanit';
+    font-weight:300;
+}
 
 @media screen and (max-width:800px){
     .quickbookGrid{

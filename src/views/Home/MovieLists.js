@@ -1,11 +1,16 @@
-import React from 'react'
+import React ,{useState} from 'react'
 import "../../assets/MovieLists.css"
+
+
 
 
 function MovieLists() {
 
-    const movieList = [
-        {movieName:'Venom',language:'English'},
+
+  
+
+    const movieListt = [
+        {movieName:'Spider-Man: Homecoming',language:'English'},
         {movieName:'Blaze and the Monster Machines ',language:'English'},
         {movieName:'Mission Impossible',language:'English'},
         {movieName:'Nigga Impossible',language:'English'},
@@ -17,6 +22,9 @@ function MovieLists() {
     ]
 
 
+
+   
+
   return (
     <div className='wholePage'>
 
@@ -27,14 +35,14 @@ function MovieLists() {
 
     <div className='movieLists'>
 
-    {movieList.map((item,index)=>(
+    {movieListt.map((item,index)=>(
         
     <div class=" singleMovie " key={index}> 
     
       <img
-          src="https://images.unsplash.com/photo-1592921870789-04563d55041c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+          src="https://i.imgur.com/TucaNwI.jpg"
           alt=""
-          className="object-cover "
+          className=" "
       />
       <div class="singleMovieInfo">
         <div>

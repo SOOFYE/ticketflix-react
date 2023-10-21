@@ -1,16 +1,13 @@
- nav{
+nav{
     overflow:hidden;
     height:5rem;
     /* border:2px solid */
 } 
 
-
-
 .navbarLogo{
     width:10rem;
     height:10rem;
     /* border:2px solid */
-    
 }
 
 .imageContainer{
@@ -22,6 +19,7 @@
 }
 
 .userIcon{
+    position: relative;
     float:right;
     display:inline-block;
     margin-top:1rem;
@@ -29,5 +27,39 @@
     color:white;
     cursor:pointer;
     /* border:2px solid; */
-   
- } 
+} 
+
+/* Additions for the dropdown styling */
+.dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    /* max-width: 200px; */
+    background-color: #facc15;
+    /* border: 1px solid #ccc; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    z-index: 1;
+    
+}
+
+.dropdown ul {
+    list-style-type: none;
+    width:10rem;
+    padding: 1rem; 
+    margin: 0;
+  
+    z-index: 1;
+}
+
+.dropdown li {
+    /* padding: 3rem; */
+    font-size: 0.8rem;
+    cursor: pointer;
+    color:black;
+    font-weight:600;
+
+}
+
+.dropdown ul:hover {
+    background-color: #f0f0f0;
+}
