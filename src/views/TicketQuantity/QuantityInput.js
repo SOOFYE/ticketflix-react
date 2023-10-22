@@ -1,20 +1,22 @@
 import React,{useState} from 'react'
 import "../../assets/quantityinput.css"
 
-function QuantityInput({onQuantityChange}) {
+function QuantityInput({onQuantityChange,type}) {
+
+  
     const [quantity, setQuantity] = useState(0);
 
     const handleIncrement = () => {
       const newQuantity = quantity + 1;
       setQuantity(newQuantity);
-      onQuantityChange(newQuantity);
+      onQuantityChange(newQuantity,type);
     };
   
     const handleDecrement = () => {
       if (quantity > 0) {
         const newQuantity = quantity - 1;
         setQuantity(newQuantity);
-        onQuantityChange(newQuantity);
+        onQuantityChange(newQuantity,type);
       }
     };
   

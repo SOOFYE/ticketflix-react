@@ -4,10 +4,44 @@ import QuantityInput from './QuantityInput';
 
 function TicketsSelection() {
 
-  const handleQuantityChange = (newQuantity) => {
-    console.log('New Quantity: ', newQuantity);
-    // You can handle the quantity change here, e.g., update the total price
+  const [seatPrices,setSeatPrices] = useState({
+    standard:0,
+    silver:0,
+    gold:0
+  });
+
+  const handleQuantityChange = (newQuantity,type) => {
+    console.log('New Quantity: ', newQuantity,type);
+    setSeatPrices(prevSeatPrices => {
+      let updatedSeatPrices = { ...prevSeatPrices };
+  
+      if(type==='standard'){
+        updatedSeatPrices['standard'] = newQuantity * 1000; 
+      }
+  
+      if(type==='silver'){
+        updatedSeatPrices['silver'] = newQuantity * 2000;
+      }
+      
+      if(type==='gold'){
+        updatedSeatPrices['gold'] = newQuantity * 3000;
+      }
+  
+      // Return the updated seatPrices object to update the state
+      return updatedSeatPrices;
+    });
+  
+
+    
   };
+
+
+  const calculateTotal = () => {
+    return seatPrices.standard + seatPrices.silver + seatPrices.gold;
+  };
+
+
+
   return (
     <div className="ticketPage">
 
@@ -21,23 +55,23 @@ function TicketsSelection() {
 
       <div className="ticketRows">
       <h1>STANDARD</h1>
-      <QuantityInput onQuantityChange={handleQuantityChange} />
-      <h1>0</h1>
+      <QuantityInput onQuantityChange={handleQuantityChange} type='standard' />
+      <h1>{seatPrices['standard']}</h1>
       </div>
       <div className="ticketRows">
       <h1>SILVER</h1>
-      <QuantityInput onQuantityChange={handleQuantityChange} />
-      <h1>0</h1>
+      <QuantityInput onQuantityChange={handleQuantityChange} type='silver' />
+      <h1>{seatPrices['silver']}</h1>
       </div>
       <div className="ticketRows">
       <h1>GOLD</h1>
-      <QuantityInput onQuantityChange={handleQuantityChange} />
-      <h1>0</h1>
+      <QuantityInput onQuantityChange={handleQuantityChange} type='gold' />
+      <h1>{seatPrices['gold']}</h1>
       </div>
 
 
     <div className='confirmTickets'>
-    <div className='priceShow'><p id='totalText'>TOTAL</p><p id="priceText">PKR 0</p></div>
+    <div className='priceShow'><p id='totalText'>TOTAL</p><p id="priceText">PKR {calculateTotal()}</p></div>
     <button className='confirmButton'>CONFIRM TICKETS</button>
     </div>
 

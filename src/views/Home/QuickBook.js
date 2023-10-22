@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Select from 'react-select';
 
 
@@ -6,11 +6,16 @@ import {Ticket} from '../../assets/svg.js'
 
 import '../../assets/quickbook.css'
 
-function QuickBook() {
+function QuickBook({movieList}) {
   const [selectedCinema, setSelectedCinema] = useState(null);
   const [selectedMovies, setSelectedMovies] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setselectedTime] = useState(null);
+
+
+  const [movieOptions,setMovieOptions] = useState([])
+  const [dateOptions,setDateOptions] = useState([]);
+  const [timeOptions,setTimeOptions] = useState([])
 
   const selectStyles = {
     control: (provided) => ({
@@ -56,34 +61,58 @@ function QuickBook() {
     }),
   };
 
-  const cinemaOptions = [
-    { value: 'c1', label: 'Cinema 1' },
-    { value: 'c2', label: 'Cinema 2' },
-    { value: 'c3', label: 'Cinema 3' },
-    { value: 'c4', label: 'Cinema 4' },
-    { value: 'c5', label: 'Cinema 5' }
-    // ... other cinemas
-  ];
+  
 
-  const dateOptions = [
-    { value: '2023-10-04', label: 'October 4, 2023' },
-    { value: '2023-11-10', label: 'November 10, 2023' },
-    { value: '2023-12-12', label: 'December 12, 2023' }
-  ];
+  // const dateOptions = [
+  //   { value: '2023-10-04', label: 'October 4, 2023' },
+  //   { value: '2023-11-10', label: 'November 10, 2023' },
+  //   { value: '2023-12-12', label: 'December 12, 2023' }
+  // ];
 
-  const movieOptions = [
-    { value: 'm1', label: 'Movie 1' },
-    { value: 'm2', label: 'Movie 2' },
-    { value: 'm3', label: 'Movie 3' }
-    // ... other movies
-  ];
+  // const movieOptions = [
+  //   { value: 'm1', label: 'Movie 1' },
+  //   { value: 'm2', label: 'Movie 2' },
+  //   { value: 'm3', label: 'Movie 3' }
+  //   // ... other movies
+  // ];
 
-  const timeOptions = [
-    { value: '00:00', label: '12:00 AM' },
-    { value: '12:00', label: '12:00 PM:' },
-    { value: '1:00', label: '1:00 AM' }
-    // ... other movies
-  ];
+  // const timeOptions = [
+  //   { value: '00:00', label: '12:00 AM' },
+  //   { value: '12:00', label: '12:00 PM:' },
+  //   { value: '1:00', label: '1:00 AM' }
+  //   // ... other movies
+  // ];
+
+
+  function convertTo12Hour(timeStr) {
+    const [hours24, minutes] = timeStr.split(':');
+    const hours = ((hours24 % 12) || 12).toString();
+    const period = hours24 < 12 || hours24 === '24' ? 'AM' : 'PM';
+    return `${hours.padStart(2, '0')}:${minutes} ${period}`;
+  }
+
+
+  const handleMovieSelection = (selectedOption) => {
+    setSelectedMovies(selectedOption);
+    const movieObject = movieList.find(value => value.movieName === selectedOption.value);
+    if (movieObject) {
+      const dates = Object.keys(movieObject.showTimings).map(date => ({ value: date, label: date }));
+      setDateOptions(dates);
+    }
+  };
+
+  const handleDateSelection = (selectedOption) => {
+    const movieObject = movieList.find(value => value.movieName === selectedMovies.value);
+    if (movieObject) {
+      const times = movieObject.showTimings[selectedOption.value].map(time => ({ value: time, label: convertTo12Hour(time) }));
+      setTimeOptions(times);
+    }
+  };
+
+  useEffect(() => {
+    const movies = movieList.map(value => ({ value: value.movieName, label: value.movieName }));
+    setMovieOptions(movies);  // Update this line to setMovieOptions instead of setMovies
+  }, [movieList]);
 
   return (
     <div className='quickbookGrid'>
@@ -96,7 +125,7 @@ function QuickBook() {
   <Select
           options={movieOptions}
           placeholder="Select Movie"
-          onChange={setSelectedMovies}
+          onChange={handleMovieSelection}
           styles={selectStyles} //
           menuPlacement="top"
         />
@@ -105,11 +134,12 @@ function QuickBook() {
   <div>
   <Select
       options={dateOptions}
-      onChange={(selectedOption) => setSelectedDate(selectedOption)}
+      onChange={handleDateSelection}
       placeholder="Select date"
       styles={selectStyles} //
       menuPlacement="top"
       isSearchable={false}
+      // isDisabled={dateOptions.length<1?true:false}
     />
   </div>
 
@@ -121,6 +151,7 @@ function QuickBook() {
       styles={selectStyles} //
       menuPlacement="top"
       isSearchable={false}
+      // isDisabled={timeOptions.length<1?true:false}
     />
   </div>
   <div>

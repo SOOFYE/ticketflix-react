@@ -2,24 +2,17 @@ import React ,{useState} from 'react'
 import "../../assets/MovieLists.css"
 
 
+import { useNavigate } from 'react-router-dom';
 
 
-function MovieLists() {
+function MovieLists({filterdMovie,handleChangeInMovieStatus}) {
 
-
+  const navigate = useNavigate();
   
 
-    const movieListt = [
-        {movieName:'Spider-Man: Homecoming',language:'English'},
-        {movieName:'Blaze and the Monster Machines ',language:'English'},
-        {movieName:'Mission Impossible',language:'English'},
-        {movieName:'Nigga Impossible',language:'English'},
-        {movieName:'yolo Impossible',language:'English'},
-        {movieName:'Venom',language:'English'},
-        {movieName:'Spiderman',language:'English'},
-        {movieName:'Mission Impossible',language:'English'},
-
-    ]
+    const RouteToMovieInfo = (movieName)=>{
+      navigate(`movie-info/${movieName}`)
+  }
 
 
 
@@ -29,28 +22,28 @@ function MovieLists() {
     <div className='wholePage'>
 
     <div className='tabs'>
-  <button className='active font-semibold'>NOW SHOWING</button>
-  <button className='font-semibold'>COMING SOON</button>
+  <button onClick={()=>{handleChangeInMovieStatus("nowshowing")}} className='active font-semibold'>NOW SHOWING</button>
+  <button onClick={()=>{handleChangeInMovieStatus("comingsoon")}} className='font-semibold'>COMING SOON</button>
     </div>
 
     <div className='movieLists'>
 
-    {movieListt.map((item,index)=>(
+    {filterdMovie.map((value,index)=>(
         
-    <div class=" singleMovie " key={index}> 
+    <div class=" singleMovie " key={index} onClick={()=>{RouteToMovieInfo(value.movieName)}}> 
     
       <img
-          src="https://i.imgur.com/TucaNwI.jpg"
-          alt=""
+          src={value.posterLink}
+          alt="Movie Poster"
           className=" "
       />
       <div class="singleMovieInfo">
         <div>
           <h3 class="text-white text-md font-semibold">
-            {item.movieName}
+            {value.movieName}
           </h3>
           <p class="text-sm text-gray-600 ">
-            ({item.language})
+            (English)
           </p>
         </div>
         {/* <div>
@@ -67,14 +60,14 @@ function MovieLists() {
 
 <div>
 
-<button class="viewmore group relative text-sm font-medium text-white focus:outline-none focus:ring">
+{/* <button class="viewmore group relative text-sm font-medium text-white focus:outline-none focus:ring">
                     <span
                         class="absolute inset-0 border border-yellow-500 group-active:border-yellow-500"
                     ></span>
                     <span class="block border border-yellow-500 bg-yellow-500 px-12 py-3 transition-transform active:border-yellow-500 active:bg-yellow-500 group-hover:-translate-x-1 group-hover:-translate-y-1">
                         VEW MORE
                     </span>
-                </button>
+                </button> */}
 </div>
 
 

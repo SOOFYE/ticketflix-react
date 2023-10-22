@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function AddMovies() {
 
-  const { handleSubmit, control, register } = useForm();
+  const { handleSubmit, control, register,reset  } = useForm();
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'showTimings'
@@ -48,8 +48,6 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
 
   const onSubmit = async (data) => {
 
-    console.log(data.showtimings)
-
     if (data.showTimings.length === 0 || data.showTimings===undefined) {
 
       toast.error('Movie needs to have a Show Timing specified.', {
@@ -66,24 +64,24 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
         return
   }
 
-    console.log(data)
+    // console.log(data)
 
     let processedShowTimingsObject = {}
     
 
     for (const value of data.showTimings){
 
-      processedShowTimingsObject[value.date.value] = value.timings; 
+      processedShowTimingsObject[value.date.value.toString()] = value.timings; 
 
     }
 
     
 
     const dataToSubmit = {
-      _id: data.movieName,
+      id: data.movieName,
       movieName:data.movieName,
       posterLink:data.posterLink,
-      tailer:data.trailer,
+      trailer:data.trailer,
       certificate:data.certificate.value,
       runtime: data.runtimeHours.value.toString()+'h'+' '+data.runtimeMinutes.label.toString()+'m',
       genre: data.genre.map((value)=>value.value),
@@ -98,7 +96,7 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
 
 
     try {
-      const response = await axios.post('', data);
+      const response = await axios.post('https://cinemareservationsystemapi.azurewebsites.net/api/Movies', dataToSubmit);
       console.log(response)
       toast.success('Movie Successfully Added', {
         position: "top-right",
@@ -112,7 +110,7 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
         });
     } catch (error) {
       console.log(error)
-      toast.error('Error occured at the server side', {
+      toast.error(error.response.data.message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -122,15 +120,20 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
         progress: undefined,
         theme: "light",
         });
+
+        
     }
-    // const formattedData = {
-    //   ...data,
-    //   showTimings: data.showTimings.reduce((acc, curr) => {
-    //     acc[curr.date] = curr.timings.filter(timing => timing);  // filter out any falsy values (e.g., undefined)
-    //     return acc;
-    //   }, {})
-    // };
-    // console.log(formattedData);
+
+    reset();
+    reset({
+      certificate: null,
+      genre: null,
+      status: null,
+      runtimeHours: null,
+      runtimeMinutes:null,
+      showTimings: [] 
+      // ...other fields
+  });
   };
 
   const dateOptions = Array.from({ length: 30 }, (_, i) => {
@@ -203,6 +206,7 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
           rules={{ required: "Runtime hours is required" }}
           render={({ field }) => (
             <Select
+            styles={customStyles}
               {...field}
               className='hours-input'
               options={hourOptions}
@@ -219,6 +223,7 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
           rules={{ required: "Runtime minutes is required" }}
           render={({ field }) => (
             <Select
+            styles={customStyles}
               {...field}
               className='mins-input'
               options={minuteOptions}

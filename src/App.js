@@ -12,6 +12,8 @@ import AdminNavbar from './views/Admin/AdminNavbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import {Route,Routes} from 'react-router-dom';
+
 function App() {
   return (
     <div className="App">
@@ -27,12 +29,23 @@ function App() {
               pauseOnHover
               theme="light"
         />
-    <Navbar/>
-  <Home/> 
+
+          <Navbar/>
+
+          <Routes>
+              <Route path="/" element={ <Home/> } />
+              <Route path="/movie-info/:movieName" element={ <SingleMovie/> } />
+              <Route path="/ticket-selection" element={ <TicketsSelection/> } />
+              <Route path="/seat-selection" element={   <SeatSelection/>   } />
+          </Routes>
+
+  {/* <Home/>  */}
       {/* <SingleMovie/>
     <TicketsSelection/>
-    <SeatSelection/>  */}
+    <SeatSelection/>  
     {/* <AdminNavbar/> */}
+
+    {/* <AddMovies/> */}
             
     
     </div>

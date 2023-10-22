@@ -6,31 +6,44 @@ import axios from 'axios'
 
 function Home() {
 
-  const [movieList,setMovieList] = useState([{}]);
-  const [movieStatus,setMovieStatus] = useState('nowshowing')
+  const [movieList,setMovieList] = useState([]);
+  const [filterdMovie,setFilteredMovie] = useState([]);
+  // const [movieStatus,setMovieStatus] = useState('nowshowing')
 
-  const fetchData = async ()=>{
-    const data = await axios.get(`URL?status=${movieStatus}`);
-    setMovieList(data)
 
+
+  const InitialFetchData = async()=>{
+    const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/status/nowshowing`);
+    setMovieList(response.data)
+    setFilteredMovie(response.data)
+    console.log(response)
   }
 
 
+  const handleChangeInMovieStatus = async (status)=>{
+    const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/status/${status}`);
+    console.log(response)
+    setFilteredMovie(response.data)
+  }
+
 
   useEffect(()=>{
-    console.log('hellow world')
+    InitialFetchData()
   },[])
 
 
-  return (
+  return (movieList.length>0 && filterdMovie.length>0 )? (
     <div className='mt-3'>
+
      <Carasoule movieList={movieList}/> 
-     <QuickBook/>
-    <MovieLists/>
+
+     <QuickBook movieList={movieList} />
+
+    <MovieLists handleChangeInMovieStatus={handleChangeInMovieStatus} filterdMovie={filterdMovie}/>
     
     
     </div>
-  )
+  ):(<div></div>)
 }
 
 export default Home

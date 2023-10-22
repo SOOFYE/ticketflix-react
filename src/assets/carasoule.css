@@ -1,5 +1,5 @@
-Slider{
-    min-width:100vw;
+.slider{
+    width:100vw;
 }
 
 
@@ -54,3 +54,5 @@ Slider{
     text-align:center;
     font-size:10px;
 }
+
+

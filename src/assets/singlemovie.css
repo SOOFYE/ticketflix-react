@@ -15,18 +15,19 @@
 .infoColumn{
 
     max-width:25rem;
-    border:2px solid white
+    /* border:2px solid white */
 }
 
-.mediaColumn{
+/* .mediaColumn{
     border:2px solid white
-}
+} */
 
 .infoColumn h1{
     font-size:3rem;
     text-align:left;
     color:white;
     font-weight:600;
+    font-family:'Kanit';
     /* border:2px solid white */
     
 }
@@ -39,16 +40,18 @@
 
 .language{
     text-align:left;
+    font-family:'Kanit';
 }
 
 .Genre_date {
     text-align: left;
     margin-top:.4rem;
+    font-family:'Kanit';
 }
 
 .release{
     color:#949292;
-
+    font-family:'Kanit';
     white-space: nowrap;
 }
 
@@ -56,17 +59,21 @@
     color:#949292;
     text-align:left;
     margin-top:.4rem;
+    font-family:'Kanit';
 }
 
 
 .synopsisInfo {
     text-align: left;
-    color:#949292
+    color:#949292;
+    font-weight:200;
     
 }
 
 .Synopsis  {
     margin-top:1rem;
+    font-family:'Kanit';
+
 }
 
 .Synopsis > h3 {
@@ -76,24 +83,33 @@
 }
 
 
-.posterContainer>img{
-    width:100%;
-    max-height:25rem;
-    object-fit: cover; /* Maintain aspect ratio */
+.posterContainer {
+    max-width: 100%;
+    max-height: 400px;
+    position: relative; /* To position the button over the image */
+    overflow: hidden; /* Optional: to ensure nothing spills out of the container */
+    
 }
+
+.posterContainer>img {
+    width: 100%; /* This will make the image width equal to the container width */
+    height: 100%; /* This will make the image height equal to the container height */
+    object-fit: contain; /* This ensures the entire image is visible */
+    object-position: center; /* This centers the image within the container */
+}
+
+
 
 .mediaColumn {
     position: relative;
   }
   
-  .posterContainer {
-    position: relative;
-  }
+
   
-  .posterContainer img {
-    width: 100%; /* or your desired width */
-    height: auto;
-  }
+  /* .posterContainer img {
+  
+    object-fit: cover;
+  } */
   
   .trailerButton {
     position: absolute;
@@ -193,6 +209,8 @@
 
 .date, .day {
     margin: 0;
+    font-family:'Kanit';
+    font-weight:400;
 }
 
 .day{
@@ -203,13 +221,15 @@
 .timings{
     background-color:black;
     padding:0.5rem;
+    gap:3rem;
     display: flex;
     align-items: center; 
+    justify-content:space-around;
     flex-wrap: wrap;
     white-space: nowrap; 
     scrollbar-width: thin;
     scrollbar-color: #facc15 #444; /* thumb and track color */
-    margin-top: 1rem;
+    margin-top: 0.2rem;
     /* Hide scrollbar for Chrome, Safari and Opera */
     ::-webkit-scrollbar {
         height: 8px;
@@ -222,7 +242,11 @@
     ::-webkit-scrollbar-thumb {
         background-color: #facc15;
         border-radius: 4px;
-    }
+    };
+
+    font-size:1.4rem;
+    font-family:'Kanit';
+    font-weight:200;
 }
 
 .timingContainer {
@@ -278,6 +302,10 @@
         flex-direction: column;
     }
 
+    .page .mediaColumn:last-child {
+        order: -1; /* This will make the last item the first item */
+      }
+
     .mediaColumn{
         flex:1;
     }
@@ -330,6 +358,8 @@
             border-radius: 4px;
         }
     }
+
+
 
   
 }

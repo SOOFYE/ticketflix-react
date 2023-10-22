@@ -5,7 +5,15 @@ import Slider from "react-slick";
 
 import '../../assets/carasoule.css'
 
-function Carasoule() {
+import { useNavigate } from 'react-router-dom';
+
+function Carasoule({movieList}) {
+
+
+    const navigate = useNavigate();
+
+
+
     const settings = {
         dots: true,
         infinite: true,
@@ -43,12 +51,27 @@ function Carasoule() {
         ]
     };
 
+
+    const RouteToMovieInfo = (movieName)=>{
+        //set args
+
+        navigate(`movie-info/${movieName}`)
+
+    }
+
     return (
-        <Slider {...settings} className="">
-            <div className="bg-blue-400 h-96 ">
-                <div className='movieInfo'>
-                <h2 className="text-4xl font-bold text-white">Movie Title</h2>
-                <button class=" booknow group relative text-sm font-medium text-white focus:outline-none focus:ring">
+        <Slider {...settings} className="slider">
+
+
+           {movieList.map((value,index)=>{
+
+            return(
+                <div className="h-96 " key={index}>
+                <img src={value.posterLink} alt="background" className="absolute inset-0 object-cover w-full h-full" />
+                <div className="overlay absolute inset-0 bg-black opacity-50"></div>
+                <div className='movieInfo absolute inset-0 p-8'>
+                <h2 className="text-4xl font-bold text-white">{value.movieName}</h2>
+                <button onClick={()=>{RouteToMovieInfo(value.movieName)}} class=" booknow group relative text-sm font-medium text-white focus:outline-none focus:ring">
                     <span
                         class="absolute inset-0 border border-yellow-500 group-active:border-yellow-500"
                     ></span>
@@ -57,13 +80,16 @@ function Carasoule() {
                     </span>
                 </button>
                 <div className='addInfo'>
-                <p className='category text-sm'>Animation | Horror</p>
+                <p className='category text-sm'>{value.genre.join(' | ')}</p>
                 <p className='square'>▪️</p>
-                <p className='time text-sm' >2hr 35m</p>
-                <p className='age '>pg10</p>
+                <p className='time text-sm' >{value.runtime}</p>
+                <p className='age '>{value.certificate}</p>
                 </div>
                 </div>
             </div>
+            )
+
+           }) }
             {/* <div className="bg-yellow-400 h-96">
                 <div className='movieInfo'>
                 <h2 className="text-4xl font-bold text-white">Movie Title</h2>
