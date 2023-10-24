@@ -2,6 +2,10 @@ import React, {useEffect, useState} from 'react';
 import Select from 'react-select';
 
 
+
+import { useNavigate } from 'react-router-dom';
+
+
 import {Ticket} from '../../assets/svg.js'
 
 import '../../assets/quickbook.css'
@@ -61,27 +65,10 @@ function QuickBook({movieList}) {
     }),
   };
 
-  
 
-  // const dateOptions = [
-  //   { value: '2023-10-04', label: 'October 4, 2023' },
-  //   { value: '2023-11-10', label: 'November 10, 2023' },
-  //   { value: '2023-12-12', label: 'December 12, 2023' }
-  // ];
 
-  // const movieOptions = [
-  //   { value: 'm1', label: 'Movie 1' },
-  //   { value: 'm2', label: 'Movie 2' },
-  //   { value: 'm3', label: 'Movie 3' }
-  //   // ... other movies
-  // ];
+  const navigate = useNavigate();
 
-  // const timeOptions = [
-  //   { value: '00:00', label: '12:00 AM' },
-  //   { value: '12:00', label: '12:00 PM:' },
-  //   { value: '1:00', label: '1:00 AM' }
-  //   // ... other movies
-  // ];
 
 
   function convertTo12Hour(timeStr) {
@@ -102,12 +89,40 @@ function QuickBook({movieList}) {
   };
 
   const handleDateSelection = (selectedOption) => {
+    setSelectedDate(selectedOption)
     const movieObject = movieList.find(value => value.movieName === selectedMovies.value);
     if (movieObject) {
       const times = movieObject.showTimings[selectedOption.value].map(time => ({ value: time, label: convertTo12Hour(time) }));
       setTimeOptions(times);
     }
   };
+
+
+
+  const BuyTickets = ()=>{
+
+    // console.log(selectedMovies.value,selectedDate.value,selectedTime.value)
+
+    if(selectedMovies!==null&selectedDate!==null&selectedTime!==null){
+
+          const object ={
+            movie: selectedMovies.value,
+            date: selectedDate.value,
+            time: selectedTime.value,
+          } 
+          
+          navigate('/ticket-selection', {
+            state: { movieSelection: object }
+          });
+
+
+    }
+
+
+  }
+
+
+
 
   useEffect(() => {
     const movies = movieList.map(value => ({ value: value.movieName, label: value.movieName }));
@@ -156,14 +171,14 @@ function QuickBook({movieList}) {
   </div>
   <div>
   <button
-  class="group relative inline-block text-sm font-medium text-white focus:outline-none focus:ring"
-  href="/download"
+  className="group relative inline-block text-sm font-medium text-white focus:outline-none focus:ring"
+  onClick={()=>BuyTickets()}
 >
   <span
-    class="absolute inset-0 border border-black group-active:border-black"
+    className="absolute inset-0 border border-black group-active:border-black"
   ></span>
   <span
-    class="block border border-black bg-black px-12 py-3 transition-transform active:border-black active:bg-black group-hover:-translate-x-1 group-hover:-translate-y-1"
+    className="block border border-black bg-black px-12 py-3 transition-transform active:border-black active:bg-black group-hover:-translate-x-1 group-hover:-translate-y-1"
   >
     BUY NOW
   </span>

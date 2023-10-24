@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import React, { useContext, useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Home from './views/Home/Home';
@@ -13,10 +13,25 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {Route,Routes} from 'react-router-dom';
+import Loading from './components/Loading';
+
+
+import MyContext from './MyContext';
 
 function App() {
+
+
+  const [isLoggedin,setisLoggedIn] = useState(false);
+  const [userName,setUserName] = useState('');
+
+
+
+
+
+
   return (
     <div className="App">
+     <MyContext.Provider value={{isLoggedin,setisLoggedIn,userName,setUserName}}>
       <ToastContainer
               position="top-right"
               autoClose={5000}
@@ -31,6 +46,7 @@ function App() {
         />
 
           <Navbar/>
+          {/* <Loading/> */}
 
           <Routes>
               <Route path="/" element={ <Home/> } />
@@ -47,7 +63,7 @@ function App() {
 
     {/* <AddMovies/> */}
             
-    
+    </MyContext.Provider>
     </div>
   );
 }

@@ -1,15 +1,20 @@
 import React,{useState} from 'react'
 import "../../assets/quantityinput.css"
 
-function QuantityInput({onQuantityChange,type}) {
+function QuantityInput({onQuantityChange,type,remainingSeats,setIsModalVisible,setModalMessage}) {
 
   
     const [quantity, setQuantity] = useState(0);
 
     const handleIncrement = () => {
-      const newQuantity = quantity + 1;
-      setQuantity(newQuantity);
-      onQuantityChange(newQuantity,type);
+      if(quantity<remainingSeats[type]){
+        const newQuantity = quantity + 1;
+        setQuantity(newQuantity);
+        onQuantityChange(newQuantity,type);
+      }else{
+        setIsModalVisible(true);
+        setModalMessage(`No more ${type} seats are available at this moment`)
+      }
     };
   
     const handleDecrement = () => {
@@ -28,6 +33,8 @@ function QuantityInput({onQuantityChange,type}) {
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
           className="quantityField"
+          readOnly
+          disabled 
         />
         <button onClick={handleIncrement} className="quantityButton">+</button>
       </div>

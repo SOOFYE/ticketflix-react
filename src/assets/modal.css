@@ -12,7 +12,8 @@
 }
 
 .modal-content {
-    background: #facc15;
+    background-color: #facc15;
+    color:black;
     padding: 20px;
     border-radius: 5px;
     text-align: center;

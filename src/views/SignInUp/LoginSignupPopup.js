@@ -1,19 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState,useContext  } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import "../../assets/Lgsignpop.css"
+
+import MyContext from '../../MyContext';
+
+import axios from "axios"
 
 const LoginSignupPopup = ({ isVisible, onClose }) => {
     const [isLogin, setIsLogin] = useState(true);  // Toggle between Login and Signup
     const { control, handleSubmit, reset, formState: { errors } } = useForm();
 
-    const onSubmit = (data) => {
-        if (isLogin) {
+    const context = useContext(MyContext);
+
+    const onSubmit = async(data) => {
+
+        try{
+           if (isLogin) {
             console.log("Login data:", data);
-            // Handle login
+
+            const toSend = {
+                email: data.email,
+                password: data.password,
+            }
+
+            const response = await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users",toSend)
+            console.log(response)
+            if(response.status===201){
+                context.setisLoggedIn(true);
+                context.setUserName(data.email)
+                onClose()
+            }
+           
         } else {
-            console.log("Signup data:", data);
-            // Handle signup
+            console.log("Login data:", data);
+
+            const toSend = {
+                id: data.email,
+                email: data.email,
+                password: data.password,
+                isAdmin:false
+            }
+
+            const response = await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users",toSend)
+            console.log(response)
+            if(response.status===201){
+                context.setisLoggedIn(true);
+                context.setUserName(response.data.email)
+                onClose()
+            }
+           
+          
+        }  
+
+
+        }catch(error){
+            console.log(error)
         }
+       
     };
 
     if (!isVisible) return null;
@@ -28,15 +71,21 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                 <button onClick={onClose} className="closeButton">X</button>
                     <Controller
-                        name="phoneNumber"
+                        name="email"
                         control={control}
                         defaultValue=""
-                        rules={{ required: "Phone number is required" }}
+                        rules={{
+                            required: "Email Address is required",
+                            pattern: {
+                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                message: "Invalid email address format"
+                            }
+                        }}
                         render={({ field }) => (
-                            <input {...field} placeholder="Phone Number" />
+                            <input {...field} placeholder="Email Address" />
                         )}
                     />
-                    {errors.phoneNumber && <p>{errors.phoneNumber.message}</p>}
+                    {errors.email && <p>{errors.email.message}</p>}
 
                     <Controller
                         name="password"

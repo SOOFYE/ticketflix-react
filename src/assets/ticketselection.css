@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family:'Kanit'
 }
 
 .choose{
@@ -29,6 +30,10 @@
     grid-template-columns: 1fr 1fr 1fr;
     gap:10rem;
     font-size:1.2rem;
+}
+
+.ticketRows>h1{
+    font-weight:200;
 }
 
 .confirmTickets{

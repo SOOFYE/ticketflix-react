@@ -2,6 +2,7 @@ import { userIcon } from '../assets/svg'
 import React, { useState } from 'react';
 import weblogo from '../assets/weblogo.png'
 import '../assets/navbar.css'
+import { Link } from 'react-router-dom';
 
 
 
@@ -16,9 +17,9 @@ function Navbar() {
 
   return (
       <nav>
-          <div className='imageContainer'>
+          <Link to='/'><div className='imageContainer'>
               <img className='navbarLogo' src={weblogo} alt="Website Logo"/>
-          </div>
+          </div></Link>
           
           <div className='userIcon' onClick={handleClick}>
               {userIcon()}
