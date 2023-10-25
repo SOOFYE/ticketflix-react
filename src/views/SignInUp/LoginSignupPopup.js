@@ -5,6 +5,7 @@ import "../../assets/Lgsignpop.css"
 import MyContext from '../../MyContext';
 
 import axios from "axios"
+import { toast } from 'react-toastify';
 
 const LoginSignupPopup = ({ isVisible, onClose }) => {
     const [isLogin, setIsLogin] = useState(true);  // Toggle between Login and Signup
@@ -23,11 +24,12 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                 password: data.password,
             }
 
-            const response = await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users",toSend)
+            const response = await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users/login",toSend)
             console.log(response)
-            if(response.status===201){
+            if(response.status===200){
                 context.setisLoggedIn(true);
-                context.setUserName(data.email)
+                context.setUserName(response.data.userId)
+                toast.success('You are successfully logged in')
                 onClose()
             }
            
@@ -45,7 +47,7 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
             console.log(response)
             if(response.status===201){
                 context.setisLoggedIn(true);
-                context.setUserName(response.data.email)
+                context.setUserName(response.data.userId)
                 onClose()
             }
            
@@ -82,7 +84,7 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                             }
                         }}
                         render={({ field }) => (
-                            <input {...field} placeholder="Email Address" />
+                            <input id='loginput' {...field} placeholder="Email Address" />
                         )}
                     />
                     {errors.email && <p>{errors.email.message}</p>}
@@ -93,7 +95,7 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                         defaultValue=""
                         rules={{ required: "Password is required" }}
                         render={({ field }) => (
-                            <input {...field} type="password" placeholder="Password" />
+                            <input id='loginput' {...field} type="password" placeholder="Password" />
                         )}
                     />
                     {errors.password && <p>{errors.password.message}</p>}

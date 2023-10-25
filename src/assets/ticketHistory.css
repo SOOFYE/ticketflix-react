@@ -1,0 +1,74 @@
+/* ticketHistory.css */
+
+.ticket-card {
+    border: 1px solid #e0e0e0;
+    background-color: #f5f5f5;
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s;
+    
+  }
+  
+  .ticket-card:hover {
+    background-color: lightgray; 
+    transform: scale(1.02);
+  }
+
+  .ticket-card:hover .movie-title,   .ticket-card:hover .date ,   .ticket-card:hover .summary {
+    color:black;
+  }
+  
+  .ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color:black;
+  }
+
+  
+  .movie-title {
+    color:black;
+    font-size:2rem;
+    font-family:'Kanit';
+    font-weight: 400;
+  }
+
+  
+  .date {
+    font-size: 0.9rem;
+    font-family:'Kanit';
+    color:black;
+  }
+  
+  .summary {
+    color:black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-family:'Kanit';
+    font-weight:200;
+  }
+  
+  .details {
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+  
+  
+
+  #detailTHead{
+    font-size:1.5rem;
+    font-weight:500;
+    font-family:'Kanit';
+  }
+
+  
+  #detailTDe{
+    font-size:1.6rem;
+    font-weight:200;
+    font-family:'Kanit';
+  }

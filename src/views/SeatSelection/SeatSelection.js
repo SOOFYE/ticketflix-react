@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import '../../assets/seatselection.css';
 import Modal from '../../components/Modal';
 import LoginSignupPopup from '../SignInUp/LoginSignupPopup';
 import Loading from '../../components/Loading';
+import MyContext from '../../MyContext';
 
 import axios from 'axios'
 
@@ -28,6 +29,7 @@ function SeatSelection() {
 
   const location = useLocation();
   const navigation = useNavigate();
+  const context = useContext(MyContext);
 
   const handleNextClick = async () => {
     let isSelectionValid = true;
@@ -61,8 +63,7 @@ function SeatSelection() {
     }
     try{
         const objectToSend = {
-            id: location.state.movieSelection.movieName+"123123",
-            userId: "user1",
+            userId: context.userName,
             movieName: location.state.movieSelection.movie,
             movieDate: location.state.movieSelection.date,
             movieTime: location.state.movieSelection.time,

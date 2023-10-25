@@ -10,6 +10,7 @@
     display:block;
     max-width:100vw;
     text-align:left;
+    font-family:'Kanit'
 }
 
 .movieInfo > h2{

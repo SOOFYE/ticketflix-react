@@ -17,14 +17,14 @@ import Loading from './components/Loading';
 
 
 import MyContext from './MyContext';
+import TicketHistory from './views/TicketHistory/TicketHistory';
+
 
 function App() {
 
 
   const [isLoggedin,setisLoggedIn] = useState(false);
   const [userName,setUserName] = useState('');
-
-
 
 
 
@@ -53,6 +53,7 @@ function App() {
               <Route path="/movie-info/:movieName" element={ <SingleMovie/> } />
               <Route path="/ticket-selection" element={ <TicketsSelection/> } />
               <Route path="/seat-selection" element={   <SeatSelection/>   } />
+              <Route path="/ticket-history" element={   <TicketHistory/>   } />
           </Routes>
 
   {/* <Home/>  */}

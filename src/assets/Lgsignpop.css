@@ -28,6 +28,7 @@
 #logTitle{
     font-size:2rem;
     font-weight:900;
+    color:black;
 }
 
 .popupContent {
@@ -65,7 +66,8 @@ form{
     background-color:rgb(255,255,255,0.5);
     border: 2px solid black;
     border-radius:1rem;
-    padding:.3rem;
+    padding:1rem;
+    color:black;
 
  
 }
@@ -94,6 +96,7 @@ form{
 .asking{
     margin-top:1rem;
     cursor:pointer;
+    color:black;
 }
 
 .asking:hover{

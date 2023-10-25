@@ -84,7 +84,9 @@ function QuickBook({movieList}) {
     const movieObject = movieList.find(value => value.movieName === selectedOption.value);
     if (movieObject) {
       const dates = Object.keys(movieObject.showTimings).map(date => ({ value: date, label: date }));
-      setDateOptions(dates);
+      console.log(new Date(dates[0].value).getDate(),new Date().getDate())
+      const filteredDate = dates.filter((value)=>new Date(value.value)>=new Date())
+      setDateOptions(filteredDate);
     }
   };
 
@@ -93,7 +95,11 @@ function QuickBook({movieList}) {
     const movieObject = movieList.find(value => value.movieName === selectedMovies.value);
     if (movieObject) {
       const times = movieObject.showTimings[selectedOption.value].map(time => ({ value: time, label: convertTo12Hour(time) }));
-      setTimeOptions(times);
+      let filteredTimes = times;
+      if(new Date(selectedOption.value)==new Date()){
+        filteredTimes = times.filter((value)=>new Date(value).getFullYear()>=new Date().getFullYear()||new Date(value).getFullYear()==new Date().getFullYear()&&new Date(value).getDate()==new Date().getDate())
+      }
+      setTimeOptions(filteredTimes);
     }
   };
 

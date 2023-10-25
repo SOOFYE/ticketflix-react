@@ -5,14 +5,22 @@ import "../../assets/MovieLists.css"
 import { useNavigate } from 'react-router-dom';
 
 
-function MovieLists({filterdMovie,handleChangeInMovieStatus}) {
+function MovieLists({filterdMovie,handleChangeInMovieStatus,setActiveTab,activeTab}) {
 
   const navigate = useNavigate();
+  
   
 
     const RouteToMovieInfo = (movieName)=>{
       navigate(`movie-info/${movieName}`)
   }
+
+
+  const changeMovieStatus = (status) => {
+    setActiveTab(status);
+    console.log(status)
+    handleChangeInMovieStatus(status);
+  };
 
 
 
@@ -22,13 +30,24 @@ function MovieLists({filterdMovie,handleChangeInMovieStatus}) {
     <div className='wholePage'>
 
     <div className='tabs'>
-  <button onClick={()=>{handleChangeInMovieStatus("nowshowing")}} className='active font-semibold'>NOW SHOWING</button>
-  <button onClick={()=>{handleChangeInMovieStatus("comingsoon")}} className='font-semibold'>COMING SOON</button>
+    <button 
+          onClick={() => changeMovieStatus("nowshowing")} 
+          className={activeTab === "nowshowing" ? 'active font-semibold' : 'font-semibold'}
+        >
+          NOW SHOWING
+        </button>
+        <button 
+    onClick={() => changeMovieStatus("comingsoon")} 
+    className={activeTab === "comingsoon" ? 'active font-semibold' : 'font-semibold'}
+>
+    COMING SOON
+</button>
+
     </div>
 
     <div className='movieLists'>
 
-    {filterdMovie.map((value,index)=>(
+    {filterdMovie.length>=1?filterdMovie.map((value,index)=>(
         
     <div class=" singleMovie " key={index} onClick={()=>{RouteToMovieInfo(value.movieName)}}> 
     
@@ -53,7 +72,7 @@ function MovieLists({filterdMovie,handleChangeInMovieStatus}) {
         </div> */}
 
       </div>
-</div>))}
+</div>)):<div className='NoShowTitle'>No movies currently available</div>}
 
     </div>
 

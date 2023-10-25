@@ -5,7 +5,8 @@
     color:white;
     justify-content:center;
     gap:4rem;
-    font-size:1.3rem;
+    font-size:2rem;
+    font-family:'Kanit'
 
 }
 
@@ -29,6 +30,7 @@
     right: 0;
     height: 2px;  /* Adjust for desired thickness */
     background-color: #facc15; /* Or whichever color you prefer */
+
 }
 
 
@@ -53,6 +55,7 @@
     row-gap: 2rem;
     align-items: center;
     justify-items: center;
+    font-family:'Kanit'
 }
 
 .singleMovie{
@@ -118,6 +121,12 @@
 
 .viewmore{
     margin-top:3rem;
+}
+
+
+.movieLists>.NoShowTitle{
+    color:white;
+    font-size:2em;
 }
 
 @media screen and (max-width:800px){
