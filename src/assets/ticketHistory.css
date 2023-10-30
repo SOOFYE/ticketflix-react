@@ -72,3 +72,17 @@
     font-weight:200;
     font-family:'Kanit';
   }
+
+  .no-booking-found{
+    font-size:1.3rem;
+    color:white;
+    font-family:'Kanit';
+  }
+
+  .ticket-history-head{
+    font-size:3rem;
+    color:white;
+    font-family:'Kanit';
+    text-align:left;
+    margin-left:1rem;
+  }

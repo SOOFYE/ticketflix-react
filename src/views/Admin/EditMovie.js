@@ -1,21 +1,28 @@
-import React from 'react'
-import { useForm, Controller,useFieldArray } from 'react-hook-form';
+import React, { useEffect, useState } from 'react'
+import { useForm, Controller,useFieldArray  } from 'react-hook-form';
 import Select from 'react-select';
 
 import "../../assets/addmovie.css"
 
 import axios from 'axios'
 
+import { useParams,useNavigate } from 'react-router-dom';
+
 import { ToastContainer, toast } from 'react-toastify';
 
-function AddMovies() {
 
-  const { handleSubmit, control, register,reset,watch   } = useForm();
+
+function EditMovie() {
+    const { movieName } = useParams()
+  const { handleSubmit, control, register,reset,watch  } = useForm();
   const releaseDATEVALUE = watch('releaseDate');
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'showTimings'
   });
+  const [movieList,setMovieList] = useState([]);
+
+  const navigate = useNavigate()
 
 
   const customStyles = {
@@ -46,7 +53,6 @@ function AddMovies() {
 
 const hourOptions = Array.from({ length: 24 }, (v, k) => ({ value: k, label: k.toString().padStart(2, '0') }));
 const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k.toString().padStart(2, '0') }));
-
 
 const validateShowTimings = (showTimings) => {
   const dateSet = new Set();
@@ -81,7 +87,8 @@ const validateShowTimings = (showTimings) => {
 
 
 
-  const onSubmit = async (data) => {
+
+const onSubmit = async (data) => {
 
     if (data.showTimings.length === 0 || data.showTimings===undefined) {
 
@@ -135,9 +142,9 @@ const validateShowTimings = (showTimings) => {
 
 
     try {
-      const response = await axios.post('https://cinemareservationsystemapi.azurewebsites.net/api/Movies', dataToSubmit);
+      const response = await axios.put(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${movieName}`, dataToSubmit);
       console.log(response)
-      toast.success('Movie Successfully Added', {
+      toast.success('Movie Successfully Edited', {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -147,6 +154,8 @@ const validateShowTimings = (showTimings) => {
         progress: undefined,
         theme: "light",
         });
+
+        navigate('/admin')
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.message, {
@@ -163,16 +172,16 @@ const validateShowTimings = (showTimings) => {
         
     }
 
-    reset();
-    reset({
-      certificate: null,
-      genre: null,
-      status: null,
-      runtimeHours: null,
-      runtimeMinutes:null,
-      showTimings: [] 
-      // ...other fields
-  });
+  //   reset();
+  //   reset({
+  //     certificate: null,
+  //     genre: null,
+  //     status: null,
+  //     runtimeHours: null,
+  //     runtimeMinutes:null,
+  //     showTimings: [] 
+  //     // ...other fields
+  // });
   };
 
   let dateOptions;
@@ -191,13 +200,64 @@ const validateShowTimings = (showTimings) => {
           });
       }
   }
+  
+  
+  
+  
+  
+  
+
+
+
+  const fetchData = async() => {
+    try {
+      // setload(true);
+      const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${movieName}`)
+      
+      if (response.data && response.data.length > 0) {
+        const movie = response.data[0]; // Assuming you want to prefill with the first movie details
+        
+        // Transforming data to match form's structure
+        const transformedData = {
+          movieName: movie.movieName,
+          posterLink: movie.posterLink,
+          trailer: movie.trailer,
+          language: movie.language,
+          releaseDate:movie.releaseDate,
+          certificate: { value: movie.certificate, label: movie.certificate },
+          runtimeHours: { value: parseInt(movie.runtime.split('h')[0]), label: parseInt(movie.runtime.split('h')[0]).toString() },
+          runtimeMinutes: { value: parseInt(movie.runtime.split('h')[1].split('m')[0]), label: parseInt(movie.runtime.split('h')[1].split('m')[0]).toString() },
+          genre: movie.genre.map(g => ({ value: g, label: g })),
+          overview: movie.overview,
+          status: { value: movie.status, label: movie.status.charAt(0).toUpperCase() + movie.status.slice(1) },
+          showTimings: Object.entries(movie.showTimings).map(([date, timings]) => ({
+            date: { value: date, label: date },
+            timings: timings,
+          })),
+        };
+        
+        reset(transformedData);
+      }
+  
+      setMovieList(response.data);
+      console.log(response);
+      // setload(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  useEffect(()=>{
+    fetchData();
+  },[])
 
 
 
   return (
     <div className='form-container'>
         <div className='admin-header mb-5'>
-          <h1>Add New Movie</h1> 
+          <h1>Edit Movie</h1> 
         </div>
 
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -227,6 +287,8 @@ const validateShowTimings = (showTimings) => {
     <label htmlFor="releaseDate">Release Date</label>
     <input type="date" name="releaseDate" {...register('releaseDate')} placeholder='Release Date' required />
     </div>
+
+
 
     <div className="form-group">
     <label htmlFor="certificate">Certificate</label>
@@ -431,10 +493,10 @@ const validateShowTimings = (showTimings) => {
   ))}
 </div>
 
-<button className='movie-submit-button' type='submit'>Add New Movie</button>
+<button className='movie-submit-button' type='submit'>Edit Movie</button>
   </form>
   </div>
   )
 }
 
-export default AddMovies
+export default EditMovie

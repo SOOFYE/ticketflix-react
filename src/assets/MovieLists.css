@@ -1,36 +1,41 @@
-.tabs{
-    margin-top:1rem;
-    padding:1rem;
-    display:flex;
-    color:white;
-    justify-content:center;
-    gap:4rem;
-    font-size:2rem;
-    font-family:'Kanit'
-
+.tabs {
+    margin-top: 1rem;
+    padding: 1rem;
+    display: flex;
+    color: white;
+    justify-content: center;
+    gap: 4rem;
+    font-size: 2rem;
+    font-family: 'Kanit';
+    transition: background-color 5s;
 }
-
 
 .tabs > button {
     position: relative;
+    transition: color 0.3s; /* Transition for the button color */
 }
 
-.tabs > button:hover,
-.tabs > button:focus{
-    color:#facc15;
-    outline: none; /* Only if you provide an alternative focus state */
-    /* Your additional hover/focus styles */
-}
-
-.tabs > button:hover::before {
+.tabs > button::before {
     content: '';
     position: absolute;
     top: 0;  /* Adjust if needed */
     left: 0;
     right: 0;
     height: 2px;  /* Adjust for desired thickness */
-    background-color: #facc15; /* Or whichever color you prefer */
+    background-color: transparent; /* Make it transparent initially */
+    transition: background-color 0.3s; /* Transition for the ::before pseudo-element */
+}
 
+.tabs > button:hover,
+.tabs > button:focus {
+    color: #facc15;
+    outline: none; /* Only if you provide an alternative focus state */
+    /* Your additional hover/focus styles */
+}
+
+.tabs > button:hover::before,
+.tabs > button:focus::before {
+    background-color: #facc15; /* Or whichever color you prefer */
 }
 
 

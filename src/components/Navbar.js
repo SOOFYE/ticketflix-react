@@ -28,7 +28,15 @@ function Navbar() {
             return;
       }
 
-      navigate('/ticket-history');
+      if(context.role==='user'){
+        navigate('ticket-history')
+        return;
+    }
+
+        if(context.role==='user'){
+            navigate('admin')
+            return;
+            }
 
 
   };

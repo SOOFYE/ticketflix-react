@@ -63,3 +63,16 @@ nav{
 .dropdown ul:hover {
     background-color: #f0f0f0;
 }
+
+
+.userIcon{
+    margin-top:2rem;
+    color:white;
+    transition: color 0.3s ease;
+    
+}
+
+.userIcon:hover{
+  color: #facc15;
+
+}

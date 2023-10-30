@@ -29,7 +29,8 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
             if(response.status===200){
                 context.setisLoggedIn(true);
                 context.setUserName(response.data.userId)
-                toast.success('You are successfully logged in')
+                context.setRole(response.data.role)
+                toast.success('Login Successfull')
                 onClose()
             }
            
@@ -48,6 +49,8 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
             if(response.status===201){
                 context.setisLoggedIn(true);
                 context.setUserName(response.data.userId)
+                context.setRole(response.data.role)
+                toast.success('Signup Successfull')
                 onClose()
             }
            
@@ -56,7 +59,7 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
 
 
         }catch(error){
-            console.log(error)
+            toast.error(error.response.data.message)
         }
        
     };

@@ -18,6 +18,8 @@ import Loading from './components/Loading';
 
 import MyContext from './MyContext';
 import TicketHistory from './views/TicketHistory/TicketHistory';
+import AdminView from './views/Admin/AdminView';
+import EditMovie from './views/Admin/EditMovie';
 
 
 function App() {
@@ -25,13 +27,14 @@ function App() {
 
   const [isLoggedin,setisLoggedIn] = useState(false);
   const [userName,setUserName] = useState('');
+  const [role,setRole] = useState('');
 
 
 
 
   return (
     <div className="App">
-     <MyContext.Provider value={{isLoggedin,setisLoggedIn,userName,setUserName}}>
+     <MyContext.Provider value={{isLoggedin,setisLoggedIn,userName,setUserName,role,setRole}}>
       <ToastContainer
               position="top-right"
               autoClose={5000}
@@ -54,6 +57,9 @@ function App() {
               <Route path="/ticket-selection" element={ <TicketsSelection/> } />
               <Route path="/seat-selection" element={   <SeatSelection/>   } />
               <Route path="/ticket-history" element={   <TicketHistory/>   } />
+              <Route path="/admin" element={   <AdminView/>   } />
+              <Route path="admin/add-new-movie" element={   <AddMovies/>   } />
+              <Route path="admin/edit-movie/:movieName" element={   <EditMovie/>   } />
           </Routes>
 
   {/* <Home/>  */}

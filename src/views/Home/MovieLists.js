@@ -62,7 +62,7 @@ function MovieLists({filterdMovie,handleChangeInMovieStatus,setActiveTab,activeT
             {value.movieName}
           </h3>
           <p class="text-sm text-gray-600 ">
-            (English)
+            ({value.language})
           </p>
         </div>
         {/* <div>

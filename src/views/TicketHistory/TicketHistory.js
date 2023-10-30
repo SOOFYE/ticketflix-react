@@ -63,6 +63,7 @@ function TicketHistory() {
       return (
         !load ? (
             <div className="history-container">
+            <div className='ticket-history-head'>Ticket History</div>
                 {
                     bookingDetails.length ? 
                     bookingDetails.map((value, index) => (
@@ -88,7 +89,7 @@ function TicketHistory() {
                         </div>
                     )) 
                     : 
-                    <div>No bookings found</div>
+                    <div className='no-booking-found'>No bookings found</div>
                 }
             </div>
         ) : (

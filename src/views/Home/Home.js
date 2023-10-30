@@ -12,7 +12,7 @@ function Home() {
   const [movieList,setMovieList] = useState([]);
   const [filterdMovie,setFilteredMovie] = useState([]);
   const [load,setload] = useState(true);
-  const [activeTab, setActiveTab] = useState("");
+  const [activeTab, setActiveTab] = useState("nowshowing");
 
 
 

@@ -71,6 +71,7 @@ function SeatSelection() {
             totalPrice: location.state.totalPrice,
             seatsBooked: selectedSeats
         }
+        console.log(objectToSend)
         const response = await axios.post(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking`,objectToSend);
         console.log(response);
         navigation('/')
