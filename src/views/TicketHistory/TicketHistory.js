@@ -75,7 +75,7 @@ function TicketHistory() {
                             {showDetails !== index ? (  // Change conditional logic to check for index
                                 <div className="summary">
                                     <span>{value.numOfTickets} Tickets</span>
-                                    <span>Total: ${value.totalPrice}</span>
+                                    <span>Total: PKR {value.totalPrice}</span>
                                 </div>
                             ) : (
                                 <div className="details">

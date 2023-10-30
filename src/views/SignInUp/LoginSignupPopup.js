@@ -24,7 +24,9 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                 password: data.password,
             }
 
-            const response = await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users/login",toSend)
+            const response = await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users/login",toSend,{
+                withCredentials: true
+              })
             console.log(response)
             if(response.status===200){
                 context.setisLoggedIn(true);
@@ -44,7 +46,9 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                 isAdmin:false
             }
 
-            const response = await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users",toSend)
+            const response = await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users",toSend,{
+                withCredentials: true
+              })
             console.log(response)
             if(response.status===201){
                 context.setisLoggedIn(true);

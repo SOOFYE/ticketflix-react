@@ -8,6 +8,7 @@ import MyContext from '../../MyContext';
 import axios from 'axios'
 
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function SeatSelection() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -62,8 +63,9 @@ function SeatSelection() {
       return;
     }
     try{
+      setload(true);
         const objectToSend = {
-            userId: context.userName,
+            // userId: context.userName,
             movieName: location.state.movieSelection.movie,
             movieDate: location.state.movieSelection.date,
             movieTime: location.state.movieSelection.time,
@@ -72,9 +74,13 @@ function SeatSelection() {
             seatsBooked: selectedSeats
         }
         console.log(objectToSend)
-        const response = await axios.post(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking`,objectToSend);
+        const response = await axios.post(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking`,objectToSend,{
+          withCredentials: true
+        });
         console.log(response);
-        navigation('/')
+        setload(false);
+        toast.success("Successfully Booked")
+        navigation('ticket-history')
     }catch(error){
         console.log(error)
     }

@@ -33,7 +33,7 @@ function Navbar() {
         return;
     }
 
-        if(context.role==='user'){
+        if(context.role==='admin'){
             navigate('admin')
             return;
             }
