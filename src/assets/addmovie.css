@@ -118,6 +118,10 @@ input[type="submit"] {
     justify-content: space-around;
     margin-bottom: 0.5rem;  /* Add some spacing between date and timings */
   }
+
+  .form-group-timings .time-inn{
+    width:5rem;
+  }
   
   .timing-group {
     display: flex;
@@ -139,7 +143,7 @@ input[type="submit"] {
 
 
   .movie-submit-button{
-    width:100vw;
+    width:20vw;
     padding:1rem;
     color:rgba(215,213,211,255);
     background-color:rgba(144,122,34,255);
@@ -149,10 +153,7 @@ input[type="submit"] {
     transition: background-color 0.3s;
   }
 
-  .movie-submit-button{
-
-  }
-
+ 
   @media (max-width: 1380px) {
     .form-container {
         margin-top: 1rem;
@@ -182,6 +183,7 @@ input[type="submit"] {
         padding:0.4rem;
     }
 }
+
 
   @media (max-width: 768px) {
     .form-container {

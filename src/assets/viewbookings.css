@@ -1,0 +1,30 @@
+/* BookingDetails.css */
+.booking-details-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .card {
+    background: #f3f3f3;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .card p, .card ul {
+    color: #555;
+    text-align: left;
+  }
+  
+  .card ul {
+    padding-left: 20px;
+  }
+  

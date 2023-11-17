@@ -6,7 +6,7 @@ import SingleMovie from './views/Single/SingleMovie';
 import { Ticket } from './assets/svg';
 import TicketsSelection from './views/TicketQuantity/TicketsSelection';
 import SeatSelection from './views/SeatSelection/SeatSelection';
-import AddMovies from './views/Admin/AddMovies';
+import AddMovies from './views/Admin/Movie/AddMovies';
 import AdminNavbar from './views/Admin/AdminNavbar';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,8 +18,9 @@ import Loading from './components/Loading';
 
 import MyContext from './MyContext';
 import TicketHistory from './views/TicketHistory/TicketHistory';
-import AdminView from './views/Admin/AdminView';
-import EditMovie from './views/Admin/EditMovie';
+import MovieView from './views/Admin/Movie/MovieView';
+import EditMovie from './views/Admin/Movie/EditMovie';
+import SideBar from './views/Admin/SideBar';
 
 
 function App() {
@@ -57,9 +58,10 @@ function App() {
               <Route path="/ticket-selection" element={ <TicketsSelection/> } />
               <Route path="/seat-selection" element={   <SeatSelection/>   } />
               <Route path="/ticket-history" element={   <TicketHistory/>   } />
-              <Route path="/admin" element={   <AdminView/>   } />
-              <Route path="admin/add-new-movie" element={   <AddMovies/>   } />
-              <Route path="admin/edit-movie/:movieName" element={   <EditMovie/>   } />
+              <Route path="/admin/*" element={   <SideBar/>   } />
+              
+              {/* <Route path="admin/add-new-movie" element={   <AddMovies/>   } />
+              <Route path="admin/edit-movie/:movieName" element={   <EditMovie/>   } /> */}
           </Routes>
 
   {/* <Home/>  */}

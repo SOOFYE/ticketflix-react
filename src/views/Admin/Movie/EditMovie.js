@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm, Controller,useFieldArray  } from 'react-hook-form';
 import Select from 'react-select';
 
-import "../../assets/addmovie.css"
+import "../../../assets/addmovie.css"
 
 import axios from 'axios'
 
@@ -219,6 +219,7 @@ const onSubmit = async (data) => {
         
         // Transforming data to match form's structure
         const transformedData = {
+  
           movieName: movie.movieName,
           posterLink: movie.posterLink,
           trailer: movie.trailer,

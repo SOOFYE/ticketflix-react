@@ -1,14 +1,21 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useForm, Controller,useFieldArray } from 'react-hook-form';
 import Select from 'react-select';
 
-import "../../assets/addmovie.css"
+import "../../../assets/addmovie.css"
 
 import axios from 'axios'
 
 import { ToastContainer, toast } from 'react-toastify';
 
 function AddMovies() {
+
+
+  const [cinemas, setCinemas] = useState([{id: 1, name: "messi"},{id: 2, name: "gay"}]);
+
+  const addShowTiming = () => {
+    append({ cinema: '', date: '', timings: [] });
+  };
 
   const { handleSubmit, control, register,reset,watch   } = useForm();
   const releaseDATEVALUE = watch('releaseDate');
@@ -112,10 +119,19 @@ const validateShowTimings = (showTimings) => {
 
     }
 
+    let showTimingsByCinema = data.showTimings.map(showTiming => ({
+      cinemaId: showTiming.cinema.value, // Assuming you're using react-select
+      showTimings: processedShowTimingsObject
+    }));
+
+
+    console.log(showTimingsByCinema);
+
+    return;
+
     
 
     const dataToSubmit = {
-      id: data.movieName,
       movieName:data.movieName,
       posterLink:data.posterLink,
       trailer:data.trailer,
@@ -126,7 +142,7 @@ const validateShowTimings = (showTimings) => {
       genre: data.genre.map((value)=>value.value),
       overview: data.overview,
       status:data.status.value,
-      showTimings: processedShowTimingsObject,
+      showTimings: showTimingsByCinema,
       cast:['unknown']
 
     }
@@ -373,7 +389,7 @@ const validateShowTimings = (showTimings) => {
 
     <button
     type="button"
-    onClick={() => append({ date: '', timings: [] })}
+    onClick={addShowTiming}
     className='date-button'
   >
     + Add Show Timings
@@ -391,6 +407,21 @@ const validateShowTimings = (showTimings) => {
 
   {fields.map((field, index) => (
     <div key={field.id} className="form-group">
+
+    <Controller
+          name={`showTimings[${index}].cinema`}
+          control={control}
+          render={({ field }) => (
+            <Select
+            styles={customStyles}
+              {...field}
+              options={cinemas.map(cinema => ({ value: cinema.id, label: cinema.name }))}
+              placeholder="Select Cinema"
+              className="form-input" 
+              required
+            />
+          )}
+        />
 
       <div className="form-group-header">
       <label htmlFor={`showTimings[${index}].date`} className="form-label">Date</label>

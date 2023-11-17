@@ -38,11 +38,11 @@
 
 
 
-
+ 
 /* AdminView.module.css */
 .table {
    display:flex;
-
+   overflow: visible;
    margin:1rem;
   }
 
