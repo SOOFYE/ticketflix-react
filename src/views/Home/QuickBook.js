@@ -20,6 +20,7 @@ function QuickBook({movieList}) {
   const [movieOptions,setMovieOptions] = useState([])
   const [dateOptions,setDateOptions] = useState([]);
   const [timeOptions,setTimeOptions] = useState([])
+  const [cinemaOptions,setCinemaOptions] = useState([]);
 
   const selectStyles = {
     control: (provided) => ({
@@ -83,18 +84,29 @@ function QuickBook({movieList}) {
     setSelectedMovies(selectedOption);
     const movieObject = movieList.find(value => value.movieName === selectedOption.value);
     if (movieObject) {
-      const dates = Object.keys(movieObject.showTimings).map(date => ({ value: date, label: date }));
-      console.log(new Date(dates[0].value).getDate(),new Date().getDate())
-      const filteredDate = dates.filter((value)=>new Date(value.value)>=new Date())
-      setDateOptions(filteredDate);
+      const cinemas = Object.keys(movieObject.showTimings).map(cinema => ({ value: cinema, label: cinema }));
+      setCinemaOptions(cinemas);
+      // console.log(new Date(dates[0].value).getDate(),new Date().getDate())
+      // const filteredDate = dates.filter((value)=>new Date(value.value)>=new Date())
+      // setDateOptions(filteredDate);
     }
   };
+
+  const handleCinemaSelection = (selectedOption) =>{
+    setSelectedCinema(selectedOption);
+    const movieObject = movieList.find(value => value.movieName === selectedMovies.value); 
+    if(movieObject){
+      const dates = Object.keys(movieObject.showTimings[selectedOption.value]).map(date => ({ value: date, label: date }));
+      const filteredDate = dates.filter((value)=>new Date(value.value)>=new Date());
+      setDateOptions(filteredDate);
+    }
+  }
 
   const handleDateSelection = (selectedOption) => {
     setSelectedDate(selectedOption)
     const movieObject = movieList.find(value => value.movieName === selectedMovies.value);
     if (movieObject) {
-      const times = movieObject.showTimings[selectedOption.value].map(time => ({ value: time, label: convertTo12Hour(time) }));
+      const times = movieObject.showTimings[selectedCinema.value][selectedOption.value].map(time => ({ value: time, label: convertTo12Hour(time) }));
       let filteredTimes = times;
       if(new Date(selectedOption.value)==new Date()){
         filteredTimes = times.filter((value)=>new Date(value).getFullYear()>=new Date().getFullYear()||new Date(value).getFullYear()==new Date().getFullYear()&&new Date(value).getDate()==new Date().getDate())
@@ -112,6 +124,7 @@ function QuickBook({movieList}) {
     if(selectedMovies!==null&selectedDate!==null&selectedTime!==null){
 
           const object ={
+            cinema: selectedCinema.value,
             movie: selectedMovies.value,
             date: selectedDate.value,
             time: selectedTime.value,
@@ -150,6 +163,17 @@ function QuickBook({movieList}) {
           styles={selectStyles} //
           menuPlacement="top"
         />
+  </div>
+
+  <div>
+  <Select
+      options={cinemaOptions}
+      onChange={handleCinemaSelection}
+      placeholder="Select cinema"
+      styles={selectStyles} //
+      menuPlacement="top"
+      // isDisabled={dateOptions.length<1?true:false}
+    />
   </div>
 
   <div>

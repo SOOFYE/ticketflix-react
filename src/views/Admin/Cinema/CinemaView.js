@@ -19,7 +19,7 @@ function CinemaView() {
   const customStyles = {
     table: {
       style: {
-        height: '200px',
+        height: '900px',
         backgroundColor: 'rgba(32,32,32,255)',
       },
     },
@@ -68,7 +68,7 @@ function CinemaView() {
     try {
       setload(true);
       const response = await axios.get(
-        `https://cinemareservationsystemapi.azurewebsites.net/api/Movies/status/${option}`
+        `https://cinemareservationsystemapi.azurewebsites.net/api/Cinema`
       );
       setCinemas(response.data);
       console.log(response);
@@ -79,13 +79,13 @@ function CinemaView() {
   };
 
   useEffect(() => {
-    // fetchCinemas();
+    fetchCinemas();
   }, []);
 
   const columns = [
     {
       name: 'Cinema',
-      selector: (row) => row.cinemaName,
+      selector: (row) => row.name,
       sortable: true,
     },
     {
@@ -110,7 +110,7 @@ function CinemaView() {
 
   const handleAction = (option, row) => {
     if (option.value === 'edit') {
-      navigate(`/admin/edit-cinema/${row.movieName}`);
+      navigate(`/admin/edit-cinema/${row.name}`);
       // console.log(`Editing movie: ${row.movieName}`);
     } else if (option.value === 'delete') {
       // Implement delete logic here

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useForm, Controller,useFieldArray } from 'react-hook-form';
 import Select from 'react-select';
 
@@ -11,13 +11,13 @@ import { ToastContainer, toast } from 'react-toastify';
 function AddMovies() {
 
 
-  const [cinemas, setCinemas] = useState([{id: 1, name: "messi"},{id: 2, name: "gay"}]);
+  const [cinemas, setCinemas] = useState([]);
 
   const addShowTiming = () => {
     append({ cinema: '', date: '', timings: [] });
   };
 
-  const { handleSubmit, control, register,reset,watch   } = useForm();
+  const { handleSubmit, reset, control, register, watch, formState: { errors } } = useForm();
   const releaseDATEVALUE = watch('releaseDate');
   const { fields, append, remove } = useFieldArray({
     control,
@@ -106,28 +106,18 @@ const validateShowTimings = (showTimings) => {
         return
   }
 
-  if (!validateShowTimings(data.showTimings)) {return}
 
     // console.log(data)
 
-    let processedShowTimingsObject = {}
+   const showTimingsbyCinema = data.showTimings.reduce((acc, { cinema, date, timings }) => {
+      if (!acc[cinema.value]) {
+        acc[cinema.value] = {};
+      }
     
-
-    for (const value of data.showTimings){
-
-      processedShowTimingsObject[value.date.value.toString()] = value.timings; 
-
-    }
-
-    let showTimingsByCinema = data.showTimings.map(showTiming => ({
-      cinemaId: showTiming.cinema.value, // Assuming you're using react-select
-      showTimings: processedShowTimingsObject
-    }));
-
-
-    console.log(showTimingsByCinema);
-
-    return;
+      acc[cinema.value][date.value] = timings.map(timing => timing.value);
+    
+      return acc;
+    }, {});
 
     
 
@@ -142,7 +132,7 @@ const validateShowTimings = (showTimings) => {
       genre: data.genre.map((value)=>value.value),
       overview: data.overview,
       status:data.status.value,
-      showTimings: showTimingsByCinema,
+      showTimings: showTimingsbyCinema,
       cast:['unknown']
 
     }
@@ -208,6 +198,36 @@ const validateShowTimings = (showTimings) => {
       }
   }
 
+
+  const timingOptions = Array.from({ length: 24 }, (_, hour) =>
+    Array.from({ length: 4 }, (_, quarter) => ({ 
+      value: `${hour.toString().padStart(2, '0')}:${(quarter * 15).toString().padStart(2, '0')}`,
+      label: `${hour.toString().padStart(2, '0')}:${(quarter * 15).toString().padStart(2, '0')}`
+    }))
+  ).flat();
+
+
+  const validateTimings = (timings) => timings && timings.length >= 4;
+
+
+  const fetchCinemas = async () => {
+    try {
+      const response = await axios.get(
+        `https://cinemareservationsystemapi.azurewebsites.net/api/Cinema`
+      );
+      const ci = response.data.map((value) => ({ value: value.name, label: value.name }));
+
+      console.log(ci);
+      setCinemas(ci);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(()=>{
+    fetchCinemas();
+  },[])
 
 
   return (
@@ -397,17 +417,9 @@ const validateShowTimings = (showTimings) => {
   </div>
 
 <div className="form-group-date">
-  {/* <button
-    type="button"
-    onClick={() => append({ date: '', timings: [] })}
-    className='date-button'
-  >
-    + Add Show Timings
-  </button> */}
-
   {fields.map((field, index) => (
     <div key={field.id} className="form-group">
-
+    <label className="form-label">Cinema</label>
     <Controller
           name={`showTimings[${index}].cinema`}
           control={control}
@@ -415,9 +427,9 @@ const validateShowTimings = (showTimings) => {
             <Select
             styles={customStyles}
               {...field}
-              options={cinemas.map(cinema => ({ value: cinema.id, label: cinema.name }))}
+              options={cinemas}
               placeholder="Select Cinema"
-              className="form-input" 
+              className="form-input select cinema" 
               required
             />
           )}
@@ -439,24 +451,31 @@ const validateShowTimings = (showTimings) => {
           />
         )}
       />
-        <button className='remove-button' type="button" onClick={() => remove(index)}>Remove Date</button>
+        
       </div>
 
       {/* For simplicity, three timing fields per date */}
       <div className="form-group-timings">
-        {['Timing 1', 'Timing 2', 'Timing 3','Timing 4'].map((label, timingIndex) => (
-          <div className="timing-group" key={timingIndex}>
-            <label htmlFor={`showTimings[${index}].timings[${timingIndex}]`} className="form-label">{label}</label>
-            <input
-              name={`showTimings[${index}].timings[${timingIndex}]`}
-              {...register(`showTimings[${index}].timings[${timingIndex}]`)}
-              defaultValue={field.timings[timingIndex]}  // make sure to set up defaultValue
-              className="form-input time-inn"
-              placeholder="HH:mm "
-              required
+      <label className="form-label">Timings</label>
+      <Controller
+              name={`showTimings[${index}].timings`}
+              control={control}
+              rules={{ validate: validateTimings }}
+              render={({ field }) => (
+                <Select
+                styles={customStyles}
+                  {...field}
+                  options={timingOptions}
+                  isMulti
+                  placeholder="Select Timings"
+                  className="form-input"
+                />
+              )}
             />
-          </div>
-        ))}
+            {errors.showTimings?.[index]?.timings && (
+              <p>At least 4 timings must be selected</p>
+            )}
+            <button className='remove-button' type="button" onClick={() => remove(index)}>Remove Date</button>
       </div>
     </div>
   ))}

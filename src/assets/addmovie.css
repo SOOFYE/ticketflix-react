@@ -5,6 +5,14 @@
     margin-top:2rem;
 }
 
+.admin-header > h1 {
+  font-size: 4rem;
+  font-family: 'kanit';
+  color: white;
+  margin-left: 1rem; 
+}
+
+
 .form-group {
     display: flex;
     flex-direction: row;
@@ -105,8 +113,8 @@ input[type="submit"] {
   .form-group-date {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
+    align-items: left;
+    justify-content: left;
     margin-bottom: 1rem;
     
   }
@@ -114,13 +122,13 @@ input[type="submit"] {
   .form-group-header, .form-group-timings {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+    align-items: left;
+    justify-content: left;
     margin-bottom: 0.5rem;  /* Add some spacing between date and timings */
   }
 
   .form-group-timings .time-inn{
-    width:5rem;
+    width:6rem;
   }
   
   .timing-group {

@@ -13,13 +13,22 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 function EditMovie() {
+
+  const addShowTiming = () => {
+    append({ cinema: '', date: '', timings: [] });
+  };
+
+  const [cinemas, setCinemas] = useState([]);
+
+
     const { movieName } = useParams()
-  const { handleSubmit, control, register,reset,watch  } = useForm();
-  const releaseDATEVALUE = watch('releaseDate');
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'showTimings'
-  });
+    const { handleSubmit, reset, control, register, watch, formState: { errors } } = useForm();
+    const releaseDATEVALUE = watch('releaseDate');
+    const { fields, append, remove } = useFieldArray({
+      control,
+      name: 'showTimings'
+    });
+  
   const [movieList,setMovieList] = useState([]);
 
   const navigate = useNavigate()
@@ -106,23 +115,26 @@ const onSubmit = async (data) => {
         return
   }
 
-  if (!validateShowTimings(data.showTimings)) {return}
-
-    // console.log(data)
-
-    let processedShowTimingsObject = {}
+ 
     
 
-    for (const value of data.showTimings){
+    const showTimingsbyCinema = data.showTimings.reduce((acc, { cinema, date, timings }) => {
+      if (!acc[cinema.value]) {
+        acc[cinema.value] = {};
+      }
+    
+      acc[cinema.value][date.value] = timings.map(timing => timing.value);
+    
+      return acc;
+    }, {});
 
-      processedShowTimingsObject[value.date.value.toString()] = value.timings; 
+   
 
-    }
+
 
     
 
     const dataToSubmit = {
-      id: data.movieName,
       movieName:data.movieName,
       posterLink:data.posterLink,
       trailer:data.trailer,
@@ -133,7 +145,7 @@ const onSubmit = async (data) => {
       genre: data.genre.map((value)=>value.value),
       overview: data.overview,
       status:data.status.value,
-      showTimings: processedShowTimingsObject,
+      showTimings: showTimingsbyCinema,
       cast:['unknown']
 
     }
@@ -247,6 +259,36 @@ const onSubmit = async (data) => {
       console.log(error);
     }
   };
+
+  const timingOptions = Array.from({ length: 24 }, (_, hour) =>
+    Array.from({ length: 4 }, (_, quarter) => ({ 
+      value: `${hour.toString().padStart(2, '0')}:${(quarter * 15).toString().padStart(2, '0')}`,
+      label: `${hour.toString().padStart(2, '0')}:${(quarter * 15).toString().padStart(2, '0')}`
+    }))
+  ).flat();
+
+
+  const validateTimings = (timings) => timings && timings.length >= 4;
+
+
+  const fetchCinemas = async () => {
+    try {
+      const response = await axios.get(
+        `https://cinemareservationsystemapi.azurewebsites.net/api/Cinema`
+      );
+      const ci = response.data.map((value) => ({ value: value.name, label: value.name }));
+
+      console.log(ci);
+      setCinemas(ci);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(()=>{
+    fetchCinemas();
+  },[])
 
 
   useEffect(()=>{
@@ -436,24 +478,31 @@ const onSubmit = async (data) => {
 
     <button
     type="button"
-    onClick={() => append({ date: '', timings: [] })}
+    onClick={addShowTiming}
     className='date-button'
   >
     + Add Show Timings
   </button>
   </div>
 
-<div className="form-group-date">
-  {/* <button
-    type="button"
-    onClick={() => append({ date: '', timings: [] })}
-    className='date-button'
-  >
-    + Add Show Timings
-  </button> */}
-
+  <div className="form-group-date">
   {fields.map((field, index) => (
     <div key={field.id} className="form-group">
+    <label className="form-label">Cinema</label>
+    <Controller
+          name={`showTimings[${index}].cinema`}
+          control={control}
+          render={({ field }) => (
+            <Select
+            styles={customStyles}
+              {...field}
+              options={cinemas}
+              placeholder="Select Cinema"
+              className="form-input select cinema" 
+              required
+            />
+          )}
+        />
 
       <div className="form-group-header">
       <label htmlFor={`showTimings[${index}].date`} className="form-label">Date</label>
@@ -471,24 +520,31 @@ const onSubmit = async (data) => {
           />
         )}
       />
-        <button className='remove-button' type="button" onClick={() => remove(index)}>Remove Date</button>
+        
       </div>
 
       {/* For simplicity, three timing fields per date */}
       <div className="form-group-timings">
-        {['Timing 1', 'Timing 2', 'Timing 3','Timing 4'].map((label, timingIndex) => (
-          <div className="timing-group" key={timingIndex}>
-            <label htmlFor={`showTimings[${index}].timings[${timingIndex}]`} className="form-label">{label}</label>
-            <input
-              name={`showTimings[${index}].timings[${timingIndex}]`}
-              {...register(`showTimings[${index}].timings[${timingIndex}]`)}
-              defaultValue={field.timings[timingIndex]}  // make sure to set up defaultValue
-              className="form-input time-inn"
-              placeholder="HH:mm "
-              required
+      <label className="form-label">Timings</label>
+      <Controller
+              name={`showTimings[${index}].timings`}
+              control={control}
+              rules={{ validate: validateTimings }}
+              render={({ field }) => (
+                <Select
+                styles={customStyles}
+                  {...field}
+                  options={timingOptions}
+                  isMulti
+                  placeholder="Select Timings"
+                  className="form-input"
+                />
+              )}
             />
-          </div>
-        ))}
+            {errors.showTimings?.[index]?.timings && (
+              <p>At least 4 timings must be selected</p>
+            )}
+            <button className='remove-button' type="button" onClick={() => remove(index)}>Remove Date</button>
       </div>
     </div>
   ))}

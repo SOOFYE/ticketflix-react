@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm, Controller,useFieldArray } from 'react-hook-form';
 import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
 
 import "../../../assets/addmovie.css"
 
@@ -10,6 +11,8 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function AddCinema() {
 
+  const navigate = useNavigate();
+
   const { handleSubmit, control, register,reset,watch   } = useForm();
 
   const { fields, append, remove } = useFieldArray({
@@ -17,73 +20,10 @@ function AddCinema() {
   });
 
 
-  const customStyles = {
-
-    control: (base, state) => ({
-        ...base,
-        backgroundColor: 'rgba(51,52,53,255)',
-        borderColor: 'rgba(51,52,53,255)',
-        color:'rgba(215,213,211,255)'
-
-    }),
-    singleValue: (provided, state) => ({
-      ...provided,
-      color: 'rgba(215,213,211,255)',
-  }),
-  multiValueLabel: (styles, { data }) => ({
-    ...styles,
-    color: 'rgba(215,213,211,255)', // Set your desired color for the text of the multi-value selections
-  }),
-  multiValue: (styles, { data }) => ({
-    ...styles,
-    backgroundColor: 'rgba(144,122,34,255)', 
-    color:'rgba(215,213,211,255)'
-  }),
- 
-};
-
-
-const hourOptions = Array.from({ length: 24 }, (v, k) => ({ value: k, label: k.toString().padStart(2, '0') }));
-const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k.toString().padStart(2, '0') }));
-
-
-const validateShowTimings = (showTimings) => {
-  const dateSet = new Set();
-  for (const showTiming of showTimings) {
-    // Extract the date value (assuming it's a string)
-    const dateString = showTiming.date.value;
-
-    // Check for duplicate dates
-    if (dateSet.has(dateString)) {
-        toast.error(`Duplicate date found: ${dateString}`);
-        return false;
-    }
-    dateSet.add(dateString);
-
-      // Check for duplicate timings within the same date
-      const timingSet = new Set();
-      for (const timing of showTiming.timings) {
-
-        if (!(/^\d{2}:\d{2}$/.test(timing))) {
-         toast.error(`Wrong timing Format: ${timing} on date ${showTiming.date.value.toString()}`); // Already in HH:MM format
-          return false;
-        }
-          if (timingSet.has(timing)) {
-              toast.error(`Duplicate timing found: ${timing} on date ${showTiming.date.value.toString()}`);
-              return false;
-          }
-          timingSet.add(timing);
-      }
-  }
-  return true; // validation passed
-};
-
-
-
   const onSubmit = async (data) => {
 
     const dataToSubmit = {
-      cinemaName:data.cinemaName,
+      name:data.name,
       location:data.location,
     }
 
@@ -91,7 +31,7 @@ const validateShowTimings = (showTimings) => {
 
 
     try {
-      const response = await axios.post('https://cinemareservationsystemapi.azurewebsites.net/api/Movies', dataToSubmit);
+      const response = await axios.post('https://cinemareservationsystemapi.azurewebsites.net/api/Cinema', dataToSubmit);
       console.log(response)
       toast.success('Cinema Successfully Added', {
         position: "top-right",
@@ -103,6 +43,7 @@ const validateShowTimings = (showTimings) => {
         progress: undefined,
         theme: "light",
         });
+        navigate('/admin/view-cinema')
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.message, {
@@ -137,7 +78,7 @@ const validateShowTimings = (showTimings) => {
 
     <div className="form-group">
     <label htmlFor="movieName">Cinema Name</label>
-    <input name="movieName" {...register('cinemaName')} placeholder='Enter Cinema Name' required />
+    <input name="movieName" {...register('name')} placeholder='Enter Cinema Name' required />
     </div>
 
     <div className="form-group">

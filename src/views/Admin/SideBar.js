@@ -10,6 +10,7 @@ import AddCinema from './Cinema/AddCinema';
 import EditCinema from './Cinema/EditCinema';
 import BookingView from './Bookings/BookingView';
 import BookingDetails from './Bookings/BookingDetails';
+import ScanQr from './QRCode/ScanQr';
 
 function SideBar() {
   return (
@@ -20,7 +21,7 @@ function SideBar() {
         <li><Link to="/admin/view-booking">Bookings</Link></li>
         <li><Link to="/admin/view-cinema">Cinemas</Link></li>
         <li><Link to="/admin/view-movie">Movies</Link></li>
-        <li><Link to="/admin/scanQR">Scan QR</Link></li>
+        <li><Link to="/admin/scan-qr">Scan QR</Link></li>
         </ul>
       </div>
       <div className='admin-views'>
@@ -35,6 +36,8 @@ function SideBar() {
 
           <Route path="view-booking" element={<BookingView/>} />
           <Route path="detail-booking" element={<BookingDetails/>} />
+
+          <Route path="scan-qr" element={<ScanQr/>} />
 
 
         </Routes>

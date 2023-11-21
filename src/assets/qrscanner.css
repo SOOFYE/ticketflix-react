@@ -1,0 +1,55 @@
+.qr-scanner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px dashed gray;
+    border-radius: 10px;
+    background-color: white;
+    color: gray;
+    margin: 20px;
+    max-width: 500px;
+}
+
+.admin-header > h1 {
+    font-size: 4rem;
+    font-family: 'kanit';
+    color: white;
+    margin-left: 1rem; 
+  }
+  
+
+.qr-scanner-dropzone {
+    padding: 20px;
+    cursor: pointer;
+}
+
+.qr-scanner-dropzone:hover {
+    background-color: #f8f8f8;
+}
+
+.qr-scanner-results {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    width: 100%;
+}
+
+.qr-scanner-results > .link {
+    color: #ffa500; /* Yellow color for highlights */
+    font-family:'kanit';
+    font-weight:600;
+    font-size:2rem;
+
+}
+
+
+.qr-scanner-camera {
+    width: 100%;
+    max-width: 500px; /* Adjust as needed */
+    margin: 20px auto;
+}

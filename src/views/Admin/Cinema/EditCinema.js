@@ -23,41 +23,11 @@ function EditCinema() {
   const navigate = useNavigate()
 
 
-  const customStyles = {
-
-    control: (base, state) => ({
-        ...base,
-        backgroundColor: 'rgba(51,52,53,255)',
-        borderColor: 'rgba(51,52,53,255)',
-        color:'rgba(215,213,211,255)'
-
-    }),
-    singleValue: (provided, state) => ({
-      ...provided,
-      color: 'rgba(215,213,211,255)',
-  }),
-  multiValueLabel: (styles, { data }) => ({
-    ...styles,
-    color: 'rgba(215,213,211,255)', // Set your desired color for the text of the multi-value selections
-  }),
-  multiValue: (styles, { data }) => ({
-    ...styles,
-    backgroundColor: 'rgba(144,122,34,255)', 
-    color:'rgba(215,213,211,255)'
-  }),
- 
-};
-
-
-
-
 
 const onSubmit = async (data) => {
 
-   
-
   const dataToSubmit = {
-    cinemaName:data.cinemaName,
+    name:data.name,
     location:data.location,
   }
 
@@ -65,7 +35,7 @@ const onSubmit = async (data) => {
 
 
     try {
-      const response = await axios.put(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${cinemaName}`, dataToSubmit);
+      const response = await axios.put(`https://cinemareservationsystemapi.azurewebsites.net/api/Cinema/${cinemaName}`, dataToSubmit);
       console.log(response)
       toast.success('Cinema Successfully Edited', {
         position: "top-right",
@@ -78,7 +48,7 @@ const onSubmit = async (data) => {
         theme: "light",
         });
 
-        navigate('/admin')
+        navigate('/admin/view-cinema')
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.message, {
@@ -111,22 +81,23 @@ const onSubmit = async (data) => {
   const fetchData = async() => {
     try {
       // setload(true);
-      const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${cinemaName}`)
+      const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Cinema/${cinemaName}`)
       
-      if (response.data && response.data.length > 0) {
-        const cinema = response.data[0]; // Assuming you want to prefill with the first movie details
+      if (response.data) {
+        const cinema = response.data; // Assuming you want to prefill with the first movie details
         
         // Transforming data to match form's structure
         const transformedData = {
-          cinemaName:cinema.cinemaName,
+          name:cinema.name,
           location:cinema.location,
         };
+
+        console.log(transformedData);
         
         reset(transformedData);
       }
   
-      setCinemaList(response.data);
-      console.log(response);
+      
       // setload(false);
     } catch (error) {
       console.log(error);
@@ -150,7 +121,7 @@ const onSubmit = async (data) => {
 
     <div className="form-group">
     <label htmlFor="movieName">Cinema Name</label>
-    <input name="movieName" {...register('cinemaName')} placeholder='Enter Cinema Name' required />
+    <input name="movieName" {...register('name')} placeholder='Enter Cinema Name' required />
     </div>
 
     <div className="form-group">
