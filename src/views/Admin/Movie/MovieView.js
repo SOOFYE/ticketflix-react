@@ -19,7 +19,7 @@ function MovieView() {
   const customStyles = {
     table: {
       style: {
-        height: '200px',
+        height: '900px',
         backgroundColor: 'rgba(32,32,32,255)',
       },
     },
@@ -123,13 +123,22 @@ function MovieView() {
     },
   ];
 
-  const handleAction = (option, row) => {
+
+  const deleteFunc = async (name) =>{
+    try{
+      const response = await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${name}`)
+      toast.success("Movie Deleted")
+    }catch(error){
+      toast.error("Movie cannot be deleted")
+    }
+  } 
+
+  const handleAction =  (option, row) => {
     if (option.value === 'edit') {
       navigate(`/admin/edit-movie/${row.movieName}`);
       console.log(`Editing movie: ${row.movieName}`);
     } else if (option.value === 'delete') {
       // Implement delete logic here
-      console.log(`Deleting movie: ${row.movieName}`);
     }
   };
 

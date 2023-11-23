@@ -1,11 +1,22 @@
 .seatSelectionWrapper {
+    display:flex;
+    flex-direction:column;
     text-align: center;
     color:white;
 }
 
+
+
+
 .seatSelectionHeader h1,
 .seatSelectionHeader p {
     margin: 0.5rem 0;
+}
+
+.seatSelectionTimer{
+    display:flex;
+    justify-content:flex-end;
+    margin-right:4rem;
 }
 
 .screen {

@@ -42,7 +42,8 @@
 /* AdminView.module.css */
 .table {
    display:flex;
-   overflow: visible;
+   overflow-y: auto;
+  max-height: 900px;
    margin:1rem;
   }
 

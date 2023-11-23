@@ -71,7 +71,7 @@ function TicketsSelection() {
   const getQuantity = async (movieInfo)=>{
     setload(true);
     try{
-      const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/bookedSeats?movieName=${movieInfo.movie}&movieDate=${movieInfo.date}&movieTime=${movieInfo.time}`)
+      const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/bookedSeats?movieName=${movieInfo.movie}&movieDate=${movieInfo.date}&movieTime=${movieInfo.time}&cinemaName=${movieInfo.cinema}`)
       console.log(response.data.remainingSeats)
       setRemainingSeats(response.data.remainingSeats)
       setload(false)

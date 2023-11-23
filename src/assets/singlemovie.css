@@ -221,13 +221,14 @@
 .timings{
     background-color:black;
     padding:0.5rem;
-    gap:3rem;
+    gap:0rem 3rem;
     display: flex;
-    align-items: center; 
-    justify-content:space-around;
+    align-items: left; 
+    justify-content:flex-start;
     flex-wrap: wrap;
     white-space: nowrap; 
     scrollbar-width: thin;
+    max-width:60rem;
     scrollbar-color: #facc15 #444; /* thumb and track color */
     margin-top: 0.2rem;
     /* Hide scrollbar for Chrome, Safari and Opera */
@@ -288,7 +289,7 @@
     background-color:black;
 }
 
-.timediv > h1 {
+.timediv h1 {
     color:white;
     font-size:1.5rem;
     font-weight:600;

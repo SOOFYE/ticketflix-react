@@ -9,12 +9,17 @@ import axios from 'axios'
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Timer from './Timer';
+import SessionExpireModal from '../../components/SessionExpireModal';
+import BookingLoader from '../../components/BookingLoader';
 
 function SeatSelection() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+
+  const [showExpireModal, setExpireModal] = useState(false);
 
   const [selectedSeats, setSelectedSeats] = useState([]);
   // Maximum selectable seats per type
@@ -27,6 +32,7 @@ function SeatSelection() {
   const [alreadyBooked,setAlreadyBooked] = useState([])
 
   const [load,setload] = useState(true);
+  const [bookload,setbookload] = useState(false);
 
   const location = useLocation();
   const navigation = useNavigate();
@@ -63,9 +69,10 @@ function SeatSelection() {
       return;
     }
     try{
-      setload(true);
+      setbookload(true);
         const objectToSend = {
             // userId: context.userName,
+            cinemaName: location.state.movieSelection.cinema,
             movieName: location.state.movieSelection.movie,
             movieDate: location.state.movieSelection.date,
             movieTime: location.state.movieSelection.time,
@@ -78,11 +85,13 @@ function SeatSelection() {
           withCredentials: true
         });
         console.log(response);
-        setload(false);
+        setbookload(false);
         toast.success("Successfully Booked")
         navigation('ticket-history')
     }catch(error){
         console.log(error)
+        toast.error(error.response.data.message);
+        navigation('/')
     }
   };
 
@@ -115,13 +124,13 @@ function SeatSelection() {
   const getAlreadyBookedSeats = async (movieInfo)=>{
     setload(true);
     try{
-        const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/bookedSeats?movieName=${movieInfo.movie}&movieDate=${movieInfo.date}&movieTime=${movieInfo.time}`);
+        const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/bookedSeats?movieName=${movieInfo.movie}&movieDate=${movieInfo.date}&movieTime=${movieInfo.time}&cinemaName=${movieInfo.cinema}`);
         console.log(response)
         setAlreadyBooked(response.data.bookedSeats)
         setload(false);
         
     }catch(error){
-
+        
     }
   }
 
@@ -144,8 +153,8 @@ function SeatSelection() {
 
   }, []);
 
-  return !load? (
-    <>
+  return !load && !bookload? (
+    <div className='selectionBody'>
       <LoginSignupPopup
         isVisible={isPopupVisible}
         onClose={() => setIsPopupVisible(false)}
@@ -157,14 +166,23 @@ function SeatSelection() {
           onClose={() => setIsModalVisible(false)}
         />
       )}
+
+      {showExpireModal &&(<SessionExpireModal setExpireModal={setExpireModal}/>)}
+
+      <div className='seatSelectionTimer'><Timer setExpireModal={setExpireModal}/></div>
+
       <div className="seatSelectionWrapper">
+        
         <div className="seatSelectionHeader">
           <h1 id="selectedMovieTitle">
             {location.state?.movieSelection.movie} <span id="lang">English</span>
           </h1>
+          <h3 id="selectedDate">{location.state?.movieSelection.cinema}</h3>
           <p id="selectedDate">{location.state?.movieSelection.date}</p>
           <p id="selectedTime">{convertTo12Hour(location.state?.movieSelection.time)}</p>
         </div>
+        
+       
 
         <div className="seatsKey">
           <>
@@ -247,8 +265,8 @@ function SeatSelection() {
           ))}
         </div>
       </div>
-    </>
-  ):(<Loading/>)
+    </div>
+  ):bookload?(<BookingLoader/>):(<Loading/>)
 }
 
 export default SeatSelection;

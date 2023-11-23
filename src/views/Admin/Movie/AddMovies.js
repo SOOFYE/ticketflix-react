@@ -429,7 +429,7 @@ const validateShowTimings = (showTimings) => {
               {...field}
               options={cinemas}
               placeholder="Select Cinema"
-              className="form-input select cinema" 
+              className="form-input date-inn" 
               required
             />
           )}

@@ -63,37 +63,6 @@ function EditMovie() {
 const hourOptions = Array.from({ length: 24 }, (v, k) => ({ value: k, label: k.toString().padStart(2, '0') }));
 const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k.toString().padStart(2, '0') }));
 
-const validateShowTimings = (showTimings) => {
-  const dateSet = new Set();
-  for (const showTiming of showTimings) {
-    // Extract the date value (assuming it's a string)
-    const dateString = showTiming.date.value;
-
-    // Check for duplicate dates
-    if (dateSet.has(dateString)) {
-        toast.error(`Duplicate date found: ${dateString}`);
-        return false;
-    }
-    dateSet.add(dateString);
-
-      // Check for duplicate timings within the same date
-      const timingSet = new Set();
-      for (const timing of showTiming.timings) {
-
-        if (!(/^\d{2}:\d{2}$/.test(timing))) {
-         toast.error(`Wrong timing Format: ${timing} on date ${showTiming.date.value.toString()}`); // Already in HH:MM format
-          return false;
-        }
-          if (timingSet.has(timing)) {
-              toast.error(`Duplicate timing found: ${timing} on date ${showTiming.date.value.toString()}`);
-              return false;
-          }
-          timingSet.add(timing);
-      }
-  }
-  return true; // validation passed
-};
-
 
 
 
@@ -128,11 +97,12 @@ const onSubmit = async (data) => {
       return acc;
     }, {});
 
-   
 
 
+    console.log(showTimingsbyCinema)
 
-    
+  
+  
 
     const dataToSubmit = {
       movieName:data.movieName,
@@ -167,7 +137,7 @@ const onSubmit = async (data) => {
         theme: "light",
         });
 
-        navigate('/admin')
+        navigate('/admin/view-movie')
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.message, {
@@ -243,11 +213,16 @@ const onSubmit = async (data) => {
           genre: movie.genre.map(g => ({ value: g, label: g })),
           overview: movie.overview,
           status: { value: movie.status, label: movie.status.charAt(0).toUpperCase() + movie.status.slice(1) },
-          showTimings: Object.entries(movie.showTimings).map(([date, timings]) => ({
-            date: { value: date, label: date },
-            timings: timings,
-          })),
+          showTimings:  Object.entries(movie.showTimings).flatMap(([cinemaName, dates]) =>
+          Object.entries(dates).map(([date, timings]) => ({
+            cinema: {value: cinemaName, label:cinemaName}, // This will be 'Nuplex', 'VOX', etc.
+            date: {value: date, label: date},         // The specific date for the timings
+            timings: timings.map(t=>({value:t,label:t}))    // The array of timings for that date
+          }))
+        )
         };
+
+        console.log("hello",transformedData)
         
         reset(transformedData);
       }
@@ -486,8 +461,9 @@ const onSubmit = async (data) => {
   </div>
 
   <div className="form-group-date">
+
   {fields.map((field, index) => (
-    <div key={field.id} className="form-group">
+    <div key={index} className="form-group">
     <label className="form-label">Cinema</label>
     <Controller
           name={`showTimings[${index}].cinema`}
@@ -498,7 +474,7 @@ const onSubmit = async (data) => {
               {...field}
               options={cinemas}
               placeholder="Select Cinema"
-              className="form-input select cinema" 
+              className="form-input date-inn" 
               required
             />
           )}

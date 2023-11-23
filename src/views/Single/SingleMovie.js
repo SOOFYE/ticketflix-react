@@ -14,9 +14,11 @@ function SingleMovie() {
   const { movieName } = useParams();
   const [movieDetails,setmovieDetails] = useState(null);
 
+  const [cinemaDetails,setCinemaDetails] = useState([])
   const [showDates,setshowDates] = useState([]);
   const [showTimes,setShowTimes] = useState([]);
 
+  const [selectedCinema,setSelectedCinema]= useState();
   const [selectedDate,setSelectedDate] = useState();
   const [selectedTime,setSelectedTime] = useState();
 
@@ -41,51 +43,48 @@ function SingleMovie() {
   
 
 
-  const fetchData = async()=>{
+  const fetchData = async () => {
     setload(true);
-    try{
-      const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${movieName}`)
-      setmovieDetails(response.data[0])
-      console.log(response)
-
-      let temparray = []
-
-      for (let key in response.data[0].showTimings) {
-        if (key>=getCurrentDate()){
-         
-          temparray.push(key)
+    try {
+      const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${movieName}`);
+      const movieData = response.data[0];
+      setmovieDetails(movieData);
+  
+      // New transformation code
+      const today = getCurrentDate();
+      const cinemasWithDates = Object.entries(movieData.showTimings).reduce((acc, [cinemaName, dates]) => {
+        Object.entries(dates).forEach(([date, times]) => {
+          if (date >= today) {
+            if (!acc[date]) acc[date] = [];
+            acc[date].push({ cinema: cinemaName, times });
+          }
+        });
+        return acc;
+      }, {});
+  
+      setCinemaDetails(cinemasWithDates);
+  
+      // Setup initial states
+      const initialDates = Object.keys(cinemasWithDates);
+      if (initialDates.length > 0) {
+        const sortedDates = initialDates.sort(); // Sort dates to get the nearest date first
+        setshowDates(sortedDates);
+        setSelectedDate(sortedDates[0]);
+        setShowTimes(cinemasWithDates[sortedDates[0]]);
       }
+  
+      setload(false);
+    } catch (error) {
+      console.error(error);
     }
-    setshowDates(temparray)
+  };
 
-    setSelectedDate(temparray[0]);
-    setShowTimes(response.data[0].showTimings[temparray[0]])
-
-    console.log(temparray)
-    console.log(response.data[0].showTimings[temparray[0]])
-
-    setload(false);
-
-    }catch(error){
-      console.log(error);
-    }
-
-    
-
-  }
-
-
-  const handleDateChanges = async (date)=>{
-    setSelectedDate(date);
-    console.log(date)
-    setShowTimes(movieDetails.showTimings[date])
-  }
-
-  const handleTimeSelection = async(time)=>{
+  const handleTimeSelection = async(time,cinema)=>{
     setSelectedTime(time);
 
     const object ={
       movie: movieDetails.movieName,
+      cinema: cinema,
       date: selectedDate,
       time: time,
     } 
@@ -97,6 +96,18 @@ function SingleMovie() {
     });
 
   }
+
+
+  const handleDateChanges = (date) => {
+    setSelectedDate(date);
+    // Update the showTimes to the showtimes for all cinemas on the selected date
+    setShowTimes(cinemaDetails[date] || []);
+  };
+
+  // const handleCinemaSelection = (cinema) => {
+  //   setSelectedCinema(cinema);
+  //   // Optionally, you can filter showtimes for the selected cinema here
+  // };
 
 
   useEffect(()=>{
@@ -166,66 +177,42 @@ function SingleMovie() {
         </div>
       )}
 
-<div className='date_tabs'>
+      <div className='date_tabs'>
+        {showDates.map((date, index) => (
+          <React.Fragment key={index}>
+            <button onClick={() => handleDateChanges(date)} className='date_buttons'>
+              <p className='date'>{date === getCurrentDate() ? 'TODAY' : date}</p>
+              <p className='day'>{new Date(date).toLocaleDateString('en-US', { weekday: 'short' }).toLocaleUpperCase()}</p>
+            </button>
+            <div className='separator'></div>
+          </React.Fragment>
+        ))}
+      </div>
 
-{showDates.map((date, index) => (
-  <React.Fragment key={index}>
-    <button onClick={()=>handleDateChanges(date)} className='date_buttons'>
-      <p className='date'>{date===getCurrentDate()?'TODAY':date}</p>
-      <p className='day'>{new Date(date).toLocaleDateString('en-US', { weekday: 'short' }).toLocaleUpperCase()}</p>
-    </button>
-    <div className='separator'></div>
-  </React.Fragment>
-))}
-    {/* <button className='date_buttons'>
-    <p className='date'>8/10</p>
-    <p className='day'>SUN</p>
-    </button>
-    <div className='separator'></div>
-    <button className='date_buttons'>
-    <p className='date'>9/10</p>
-    <p className='day'>MON</p>
-    </button>
-    <div className='separator'></div>
-    <button className='date_buttons'>
-    <p className='date'>10/10</p>
-    <p className='day'>TUE</p>
-    </button>
-    <div className='separator'></div>
-    <button className='date_buttons'>
-    <p className='date'>11/10</p>
-    <p className='day'>WED</p>
-    </button> */}
-</div>
-
-
-<div className='timediv'>
-<h1>SHOW TIMINGS</h1>
-<div className="timings">
-  {(showTimes)?showTimes.map((time)=>(<button onClick={()=>handleTimeSelection(time)} className='timingContainer'>
-  <p className='timeP'>{convertTo12Hour(time)}</p>
-  </button>)):<div className='text-white'>No time slots</div>}
-  {/* <div className='timingContainer'>
-  <p className='timeP'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
-  <div className='timingContainer'>
-  <p className='timeP'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div>
-  <div className='timingContainer'>
-  <p className='timeP'>12:00 PM</p>
-  <p className='ticketType'>2D</p>
-  </div> */}
+      <div className='timediv'>
+  {/* <h1>SHOW TIMINGS</h1> */}
+  {showTimes.length > 0 ? (
+    showTimes.map(({ cinema, times }) => (
+      <div key={cinema} className="cinema-timings">
+        <h1>{cinema}</h1>
+        <div className="timings">
+          {times.map((time) => (
+            <button key={time} onClick={() => handleTimeSelection(time, cinema)} className='timingContainer'>
+              <p className='timeP'>{convertTo12Hour(time)}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+    ))
+  ) : (
+    <div className='text-white'>No showtimes available for this date.</div>
+  )}
 </div>
 
       </div>
-    </div>
+</div>
 
 
-
-        
-        </div> 
   ):(<Loading/>)
 }
 

@@ -7,6 +7,9 @@ import '../../assets/carasoule.css'
 
 import { useNavigate } from 'react-router-dom';
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 function Carasoule({movieList}) {
 
 
@@ -15,9 +18,9 @@ function Carasoule({movieList}) {
 
 
     const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
+        dots: false,
+        infinite: false,
+        speed: 100,
         slidesToShow: 1,
         slidesToScroll: 1,
         adaptiveHeight: true,
@@ -62,11 +65,11 @@ function Carasoule({movieList}) {
     return (
         <Slider {...settings} className="slider">
 
-
            {movieList.map((value,index)=>{
 
-            return(
-                <div className="h-96 " key={index}>
+                return (
+                    
+                    <div className="h-96 relative " key={index}>
                 <img src={value.posterLink} alt="background" className="absolute inset-0 object-cover w-full h-full" />
                 <div className="overlay absolute inset-0 bg-black opacity-50"></div>
                 <div className='movieInfo absolute inset-0 p-8'>
