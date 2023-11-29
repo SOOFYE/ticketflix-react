@@ -119,7 +119,7 @@ function TicketsSelection() {
 
 
 
-  },[])
+  },[location.state?.movieSelection,navigation])
 
 
 

@@ -1,9 +1,9 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../assets/seatselection.css';
 import Modal from '../../components/Modal';
 import LoginSignupPopup from '../SignInUp/LoginSignupPopup';
 import Loading from '../../components/Loading';
-import MyContext from '../../MyContext';
+
 
 import axios from 'axios'
 
@@ -36,7 +36,7 @@ function SeatSelection() {
 
   const location = useLocation();
   const navigation = useNavigate();
-  const context = useContext(MyContext);
+
 
   const handleNextClick = async () => {
     let isSelectionValid = true;
@@ -51,16 +51,7 @@ function SeatSelection() {
         invalidSelectionMessage += `Please select exactly ${seatsQntyToSelect[key]} ${key} seats.`;
       }
     }
-    // // Validate the selected seats
-    // seatsQntyToSelect.forEach(({ type, qnty }) => {
-    //   const selectedOfType = selectedSeats.filter((seat) =>
-    //     seat.startsWith(type)
-    //   ).length;
-    //   if (selectedOfType !== qnty) {
-    //     isSelectionValid = false;
-    //     invalidSelectionMessage += `Please select exactly ${qnty} ${type} seats.`;
-    //   }
-    // });
+ 
 
     // Display a message in a modal if the selection is invalid
     if (!isSelectionValid) {
@@ -151,7 +142,7 @@ function SeatSelection() {
     getAlreadyBookedSeats(location.state.movieSelection);
 
 
-  }, []);
+  }, [location.state.movieSelection,location.state.seatQntySelection,navigation]);
 
   return !load && !bookload? (
     <div className='selectionBody'>

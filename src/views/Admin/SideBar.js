@@ -34,13 +34,13 @@ function SideBar() {
 
     console.log(context)
 
-    if(context.role!="admin"){
+    if(context.role!=="admin"){
       navigate('/')
     }
 
     setLoad(false)
 
-  },[])
+  },[context,navigate])
 
 
   const handleLogout = ()=>{

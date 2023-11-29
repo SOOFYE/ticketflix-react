@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import Select from 'react-select';
 import axios from 'axios';
@@ -6,7 +6,7 @@ import Loading from '../../../components/Loading';
 import '../../../assets/adminview.css';
 import Dropdown from '../../../components/Dropdown';
 import { Link, useNavigate } from 'react-router-dom';
-import {toast} from 'react-toastify'
+
 
 import Swal from 'sweetalert2';
 
@@ -159,7 +159,7 @@ function MovieView() {
         if (result.isConfirmed) {
           try {
             // Your delete logic here
-            const response = await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${row.movieName}`)
+            await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${row.movieName}`)
             Swal.fire(
               'Deleted!',
               'Movie has been deleted.',

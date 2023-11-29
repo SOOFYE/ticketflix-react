@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const Dropdown = ({ options, onSelect, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption] = useState(null);
   const dropdownRef = useRef(null);
 
   useEffect(() => {

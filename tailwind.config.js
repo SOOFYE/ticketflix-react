@@ -6,5 +6,9 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('postcss-nesting'), // Ensure this is before Tailwind CSS
+    require('tailwindcss'),
+    // ...other plugins
+  ],
 }

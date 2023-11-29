@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Navbar() {
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   const context = useContext(MyContext);
@@ -55,13 +55,7 @@ function Navbar() {
           <div className='userIcon' onClick={handleClick}>
           {context.isLoggedin ? <h1>Welcome {context.name}</h1> : <></>}
               {userIcon()}
-              {/* {isDropdownVisible && (
-                  <div className="dropdown">
-                      <ul>
-                          <li>Purchase History</li>
-                      </ul>
-                  </div>
-              )} */}
+              
           </div>
       </nav>
   );

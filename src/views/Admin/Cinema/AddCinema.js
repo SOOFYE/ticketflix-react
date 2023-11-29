@@ -1,24 +1,22 @@
 import React, {useState} from 'react'
-import { useForm, Controller,useFieldArray } from 'react-hook-form';
-import Select from 'react-select';
+import { useForm,useFieldArray } from 'react-hook-form';
+
 import { useNavigate } from 'react-router-dom';
 
 import "../../../assets/addmovie.css"
 
 import axios from 'axios'
 
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import RotateSpinner from '../../../components/RotateSpinner';
 
 function AddCinema() {
 
   const navigate = useNavigate();
 
-  const { handleSubmit, control, register,reset,watch   } = useForm();
+  const { handleSubmit, register,reset } = useForm();
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-  });
+
 
   const [isBLoading, setBLoading] = useState(false)
 

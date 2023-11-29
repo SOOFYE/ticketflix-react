@@ -1,23 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import Select from 'react-select';
 import axios from 'axios';
 import Loading from '../../../components/Loading';
 import '../../../assets/adminview.css';
 import Dropdown from '../../../components/Dropdown';
-import { Link, useNavigate } from 'react-router-dom';
-import { debounce } from 'lodash';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import NoData from '../../../components/NoData';
+
 
 function BookingView() {
   const [Bookings, setBookings] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [load, setload] = useState(true);
-  const [selectedStatus, setSelectedStatus] = useState({
-    value: 'nowshowing',
-    label: 'Now Showing',
-  }); // State to keep track of the selected value
+  
   const navigate = useNavigate();
 
   const customStyles = {
@@ -61,7 +55,7 @@ function BookingView() {
   };
 
  
-  const fetchBookings = async (option = 'nowshowing') => {
+  const fetchBookings = async () => {
     try {
       setload(true);
       const response = await axios.get(
@@ -144,7 +138,7 @@ function BookingView() {
         if (result.isConfirmed) {
           try {
             // Your delete logic here
-            const response = await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/${row.bookingId}`)
+             await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/${row.bookingId}`)
             Swal.fire(
               'Deleted!',
               'Booking has been deleted.',
@@ -163,47 +157,12 @@ function BookingView() {
     }
   };
 
-  // Loadash debounce function
-  const debouncedSearch = useCallback(
-    debounce(async (searchValue) => {
-
-      try {
-        setload(true);
-        const response = await axios.get(
-          `https://cinemareservationsystemapi.azurewebsites.net/api/Booking?searchuser=${searchValue}`
-        );
-        setBookings(response.data);
-        console.log(response);
-        setload(false);
-      } catch (error) {
-        console.log(error);
-      }
-
-      
-    }, 500), // 500ms debounce time
-    []
-  );
-
-  const handleSearchChange = (event) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-    debouncedSearch(value);
-  };
 
   return (
     <div>
       <div className="admin-header">
         <h1>Bookings</h1>
-        {/* <div className="content-con form-group">
-        <input
-        type="text"
-        placeholder="Search by username"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className="form-input" // Use your custom class for styling
-      />
-
-        </div> */}
+        
       </div>
 
       <div className="table">
@@ -215,7 +174,6 @@ function BookingView() {
           customStyles={customStyles}
           progressPending={load}
           progressComponent={<Loading />}
-          
         />
       </div>
     </div>

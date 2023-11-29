@@ -108,8 +108,14 @@ function QuickBook({movieList}) {
     if (movieObject) {
       const times = movieObject.showTimings[selectedCinema.value][selectedOption.value].map(time => ({ value: time, label: convertTo12Hour(time) }));
       let filteredTimes = times;
-      if(new Date(selectedOption.value)==new Date()){
-        filteredTimes = times.filter((value)=>new Date(value).getFullYear()>=new Date().getFullYear()||new Date(value).getFullYear()==new Date().getFullYear()&&new Date(value).getDate()==new Date().getDate())
+      if(new Date(selectedOption.value)===new Date()){
+        filteredTimes = times.filter((value) => {
+          const valueDate = new Date(value);
+          const currentDate = new Date();
+          return valueDate.getFullYear() === currentDate.getFullYear() &&
+                 valueDate.getMonth() === currentDate.getMonth() &&
+                 valueDate.getDate() === currentDate.getDate();
+        });
       }
       setTimeOptions(filteredTimes);
     }

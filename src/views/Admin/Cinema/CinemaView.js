@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import Select from 'react-select';
 import axios from 'axios';
 import Loading from '../../../components/Loading';
 import '../../../assets/adminview.css';
@@ -12,10 +11,6 @@ import Swal from 'sweetalert2';
 function CinemaView() {
   const [cinema, setCinemas] = useState([]);
   const [load, setload] = useState(true);
-  const [selectedStatus, setSelectedStatus] = useState({
-    value: 'nowshowing',
-    label: 'Now Showing',
-  }); // State to keep track of the selected value
   const navigate = useNavigate();
 
   const customStyles = {
@@ -59,7 +54,7 @@ function CinemaView() {
   };
 
   
-  const fetchCinemas = async (option = 'something') => {
+  const fetchCinemas = async () => {
     try {
       setload(true);
       const response = await axios.get(
@@ -145,20 +140,6 @@ function CinemaView() {
       <div className="admin-header">
         <h1>Cinemas</h1>
         <div className="content-con">
-          {/* <Select
-            options={[
-              { value: 'nowshowing', label: 'Now Showing' },
-              { value: 'comingsoon', label: 'Coming Soon' },
-            ]}
-            value={selectedStatus} // Set the selected value
-            onChange={(option) => {
-              fetchMovies(option.value);
-              setSelectedStatus(option);
-            }}
-            placeholder="Select Status"
-            className="admin-select"
-            styles={customStyles2}
-          /> */}
           <Link to="/admin/add-new-cinema">
             <button className="add-new-button"> + Add New Cinema</button>
           </Link>
@@ -169,7 +150,6 @@ function CinemaView() {
         <DataTable
           columns={columns}
           data={cinema}
-          // pagination
           highlightOnHover
           responsive
           customStyles={customStyles}

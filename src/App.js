@@ -1,25 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Home from './views/Home/Home';
 import SingleMovie from './views/Single/SingleMovie';
-import { Ticket } from './assets/svg';
 import TicketsSelection from './views/TicketQuantity/TicketsSelection';
 import SeatSelection from './views/SeatSelection/SeatSelection';
-import AddMovies from './views/Admin/Movie/AddMovies';
-import AdminNavbar from './views/Admin/AdminNavbar';
-
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import {Route,Routes} from 'react-router-dom';
-import Loading from './components/Loading';
-
-
 import MyContext from './MyContext';
 import TicketHistory from './views/TicketHistory/TicketHistory';
-import MovieView from './views/Admin/Movie/MovieView';
-import EditMovie from './views/Admin/Movie/EditMovie';
 import SideBar from './views/Admin/SideBar';
 import axios from 'axios';
 import { CookiesProvider } from 'react-cookie';

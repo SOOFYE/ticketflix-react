@@ -18,10 +18,8 @@ function SingleMovie() {
   const [showDates,setshowDates] = useState([]);
   const [showTimes,setShowTimes] = useState([]);
 
-  const [selectedCinema,setSelectedCinema]= useState();
+ 
   const [selectedDate,setSelectedDate] = useState();
-  const [selectedTime,setSelectedTime] = useState();
-
   const [load,setload] = useState(true);
 
   const getCurrentDate = () => {
@@ -80,7 +78,7 @@ function SingleMovie() {
   };
 
   const handleTimeSelection = async(time,cinema)=>{
-    setSelectedTime(time);
+   
 
     const object ={
       movie: movieDetails.movieName,
@@ -112,7 +110,6 @@ function SingleMovie() {
 
   useEffect(()=>{
       fetchData()
-      console.log(showTimes)
   },[])
 
 

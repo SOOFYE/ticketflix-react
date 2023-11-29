@@ -11,19 +11,7 @@ import Cookies from 'js-cookie';
 
 
 function TicketHistory() {
-    const sampleHistory = {
-        id: {
-          timestamp: 0,
-          creationTime: "2023-10-25T16:04:23.374Z"
-        },
-        userId: "sampleUserID",
-        movieName: "Inception",
-        movieDate: "2023-11-15",
-        movieTime: "18:00",
-        numOfTickets: 2,
-        totalPrice: 20,
-        seatsBooked: ["A1", "A2"]
-      };
+    
 
       const context  = useContext(MyContext)
       const [load,setload] = useState(true);
@@ -60,7 +48,7 @@ function TicketHistory() {
             return;
         }
         getBooking();
-      },[])
+      },[context.userName,navigate])
 
 
       const handleLogout = ()=>{

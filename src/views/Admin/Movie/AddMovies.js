@@ -6,7 +6,7 @@ import "../../../assets/addmovie.css"
 
 import axios from 'axios'
 
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import RotateSpinner from '../../../components/RotateSpinner';
 
 function AddMovies() {
@@ -103,7 +103,7 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
       language:data.language,
       releaseDate:data.releaseDate,
       certificate:data.certificate.value,
-      runtime: data.runtimeHours.value.toString()+'h'+' '+data.runtimeMinutes.label.toString()+'m',
+      runtime: `${data.runtimeHours.value.toString()}h ${data.runtimeMinutes.label.toString()}m`,
       genre: data.genre.map((value)=>value.value),
       overview: data.overview,
       status:data.status.value,

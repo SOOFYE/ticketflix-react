@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useForm, Controller,useFieldArray  } from 'react-hook-form';
-import Select from 'react-select';
+import { useForm,useFieldArray  } from 'react-hook-form';
 
 import "../../../assets/addmovie.css"
 
@@ -8,19 +7,15 @@ import axios from 'axios'
 
 import { useParams,useNavigate } from 'react-router-dom';
 
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import RotateSpinner from '../../../components/RotateSpinner';
 
 
 
 function EditCinema() {
     const { cinemaName } = useParams()
-  const { handleSubmit, control, register,reset,watch  } = useForm();
-  const { fields, append, remove } = useFieldArray({
-    control,
-  });
-  const [movieList,setCinemaList] = useState([]);
-
+  const { handleSubmit, register,reset } = useForm();
+ 
   const navigate = useNavigate()
 
   const [isBLoading, setBLoading] = useState(false)

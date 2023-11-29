@@ -8,7 +8,7 @@ import axios from 'axios'
 
 import { useParams,useNavigate } from 'react-router-dom';
 
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import RotateSpinner from '../../../components/RotateSpinner';
 
 
