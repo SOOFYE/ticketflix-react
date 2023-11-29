@@ -87,7 +87,7 @@ function SeatSelection() {
         console.log(response);
         setbookload(false);
         toast.success("Successfully Booked")
-        navigation('ticket-history')
+        navigation('/ticket-history')
     }catch(error){
         console.log(error)
         toast.error(error.response.data.message);

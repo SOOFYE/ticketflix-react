@@ -34,7 +34,7 @@ function Navbar() {
     }
 
         if(context.role==='admin'){
-            navigate('admin')
+            navigate('/admin/view-dashboard')
             return;
             }
 
@@ -53,6 +53,7 @@ function Navbar() {
           </div></Link>
           
           <div className='userIcon' onClick={handleClick}>
+          {context.isLoggedin ? <h1>Welcome {context.name}</h1> : <></>}
               {userIcon()}
               {/* {isDropdownVisible && (
                   <div className="dropdown">

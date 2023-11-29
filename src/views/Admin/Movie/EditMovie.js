@@ -9,6 +9,7 @@ import axios from 'axios'
 import { useParams,useNavigate } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
+import RotateSpinner from '../../../components/RotateSpinner';
 
 
 
@@ -32,6 +33,8 @@ function EditMovie() {
   const [movieList,setMovieList] = useState([]);
 
   const navigate = useNavigate()
+
+  const [isBLoading, setBLoading] = useState(false)
 
 
   const customStyles = {
@@ -68,6 +71,10 @@ const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k
 
 const onSubmit = async (data) => {
 
+  if(isBLoading) return;
+
+  setBLoading(true);
+
     if (data.showTimings.length === 0 || data.showTimings===undefined) {
 
       toast.error('Movie needs to have a Show Timing specified.', {
@@ -81,6 +88,7 @@ const onSubmit = async (data) => {
         theme: "light",
         });;
 
+        setBLoading(false);
         return
   }
 
@@ -154,16 +162,7 @@ const onSubmit = async (data) => {
         
     }
 
-  //   reset();
-  //   reset({
-  //     certificate: null,
-  //     genre: null,
-  //     status: null,
-  //     runtimeHours: null,
-  //     runtimeMinutes:null,
-  //     showTimings: [] 
-  //     // ...other fields
-  // });
+    setBLoading(false);
   };
 
   let dateOptions;
@@ -215,7 +214,7 @@ const onSubmit = async (data) => {
           status: { value: movie.status, label: movie.status.charAt(0).toUpperCase() + movie.status.slice(1) },
           showTimings:  Object.entries(movie.showTimings).flatMap(([cinemaName, dates]) =>
           Object.entries(dates).map(([date, timings]) => ({
-            cinema: {value: cinemaName, label:cinemaName}, // This will be 'Nuplex', 'VOX', etc.
+            cinema: {value: cinemas.find((value)=>value.label===cinemaName).value, label:cinemaName}, // This will be 'Nuplex', 'VOX', etc.
             date: {value: date, label: date},         // The specific date for the timings
             timings: timings.map(t=>({value:t,label:t}))    // The array of timings for that date
           }))
@@ -251,7 +250,7 @@ const onSubmit = async (data) => {
       const response = await axios.get(
         `https://cinemareservationsystemapi.azurewebsites.net/api/Cinema`
       );
-      const ci = response.data.map((value) => ({ value: value.name, label: value.name }));
+      const ci = response.data.map((value) => ({ value: value.cinemaId, label: value.cinemaName }));
 
       console.log(ci);
       setCinemas(ci);
@@ -526,7 +525,7 @@ const onSubmit = async (data) => {
   ))}
 </div>
 
-<button className='movie-submit-button' type='submit'>Edit Movie</button>
+<button className='movie-submit-button flex justify-center items-center' type='submit'>{isBLoading ? <RotateSpinner/> :"Edit Movie"}</button>
   </form>
   </div>
   )

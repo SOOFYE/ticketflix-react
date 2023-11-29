@@ -6,6 +6,9 @@ import Loading from '../../../components/Loading';
 import '../../../assets/adminview.css';
 import Dropdown from '../../../components/Dropdown';
 import { Link, useNavigate } from 'react-router-dom';
+import {toast} from 'react-toastify'
+
+import Swal from 'sweetalert2';
 
 function MovieView() {
   const [movies, setMovies] = useState([]);
@@ -38,6 +41,20 @@ function MovieView() {
         textAlign: 'center', // Center align text in normal cells
         backgroundColor: 'rgba(32,32,32,255)',
         color: 'white',
+      },
+    }, noData: {
+      style: {
+        backgroundColor: 'rgba(32,32,32,255)', // Consistent background color for no data state
+        color: 'white',
+        padding: '24px',
+        textAlign: 'center',
+        height: '300px',
+      },
+    },progress: {
+      style: {
+        backgroundColor: 'rgba(32,32,32,255)',
+        color: 'white',
+        // ... additional styles if needed
       },
     },
   };
@@ -124,21 +141,40 @@ function MovieView() {
   ];
 
 
-  const deleteFunc = async (name) =>{
-    try{
-      const response = await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${name}`)
-      toast.success("Movie Deleted")
-    }catch(error){
-      toast.error("Movie cannot be deleted")
-    }
-  } 
+ 
 
   const handleAction =  (option, row) => {
     if (option.value === 'edit') {
       navigate(`/admin/edit-movie/${row.movieName}`);
-      console.log(`Editing movie: ${row.movieName}`);
-    } else if (option.value === 'delete') {
-      // Implement delete logic here
+    } if (option.value === 'delete') {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            // Your delete logic here
+            const response = await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${row.movieName}`)
+            Swal.fire(
+              'Deleted!',
+              'Movie has been deleted.',
+              'success'
+            )
+            fetchMovies();
+          } catch (error) {
+            Swal.fire(
+              'Error!',
+              'There was an error deleting the record.',
+              'error'
+            )
+          }
+        }
+      });
     }
   };
 

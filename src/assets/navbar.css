@@ -21,7 +21,8 @@ nav{
 .userIcon{
     position: relative;
     float:right;
-    display:inline-block;
+    display:flex;
+    gap:1rem;
     margin-top:1rem;
     margin-right:3rem;
     color:white;
@@ -29,6 +30,11 @@ nav{
     /* border:2px solid; */
 } 
 
+.userIcon > h1{
+    font-family:'kanit';
+    font-size:1.2rem;
+    font-weight:200
+}
 /* Additions for the dropdown styling */
 .dropdown {
     position: absolute;

@@ -85,4 +85,21 @@
     font-family:'Kanit';
     text-align:left;
     margin-left:1rem;
+    display:flex;
+    
+    width:95%;
+  }
+
+  .ticket-history-head > button{
+    color: rgb(220, 20, 60); /* Crimson red */
+    font-size:1.2rem;
+    margin-left:auto;
+    transition: color ease-out 0.5s
+    
+  }
+
+  .ticket-history-head > button:hover{
+    color: white; /* Crimson red */
+   
+    
   }

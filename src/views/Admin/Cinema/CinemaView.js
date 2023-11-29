@@ -6,6 +6,8 @@ import Loading from '../../../components/Loading';
 import '../../../assets/adminview.css';
 import Dropdown from '../../../components/Dropdown';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 
 function CinemaView() {
   const [cinema, setCinemas] = useState([]);
@@ -39,31 +41,24 @@ function CinemaView() {
         backgroundColor: 'rgba(32,32,32,255)',
         color: 'white',
       },
+    }, noData: {
+      style: {
+        backgroundColor: 'rgba(32,32,32,255)', // Consistent background color for no data state
+        color: 'white',
+        padding: '24px',
+        textAlign: 'center',
+        height: '300px',
+      },
+    },progress: {
+      style: {
+        backgroundColor: 'rgba(32,32,32,255)',
+        color: 'white',
+        // ... additional styles if needed
+      },
     },
   };
 
-  const customStyles2 = {
-    control: (base, state) => ({
-      ...base,
-      backgroundColor: 'rgba(51,52,53,255)',
-      borderColor: 'rgba(51,52,53,255)',
-      color: 'rgba(215,213,211,255)',
-    }),
-    singleValue: (provided, state) => ({
-      ...provided,
-      color: 'rgba(215,213,211,255)',
-    }),
-    multiValueLabel: (styles, { data }) => ({
-      ...styles,
-      color: 'rgba(215,213,211,255)', // Set your desired color for the text of the multi-value selections
-    }),
-    multiValue: (styles, { data }) => ({
-      ...styles,
-      backgroundColor: 'rgba(144,122,34,255)',
-      color: 'rgba(215,213,211,255)',
-    }),
-  };
-
+  
   const fetchCinemas = async (option = 'something') => {
     try {
       setload(true);
@@ -85,12 +80,12 @@ function CinemaView() {
   const columns = [
     {
       name: 'Cinema',
-      selector: (row) => row.name,
+      selector: (row) => row.cinemaName,
       sortable: true,
     },
     {
       name: 'Location',
-      selector: (row) => row.location,
+      selector: (row) => row.cinemaLocation,
       sortable: true,
     },
     {
@@ -110,13 +105,40 @@ function CinemaView() {
 
   const handleAction = (option, row) => {
     if (option.value === 'edit') {
-      navigate(`/admin/edit-cinema/${row.name}`);
+      navigate(`/admin/edit-cinema/${row.cinemaName}`);
       // console.log(`Editing movie: ${row.movieName}`);
-    } else if (option.value === 'delete') {
-      // Implement delete logic here
-      console.log(`Deleting movie: ${row.movieName}`);
+    } if (option.value === 'delete') {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            // Your delete logic here
+            const response = await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Cinema/${row.cinemaName}`)
+            Swal.fire(
+              'Deleted!',
+              'Cinema has been deleted.',
+              'success'
+            )
+            fetchCinemas();
+          } catch (error) {
+            Swal.fire(
+              'Error!',
+              'There was an error deleting the record.',
+              'error'
+            )
+          }
+        }
+      });
     }
   };
+
 
   return (
     <div>

@@ -18,7 +18,7 @@
     margin: 0;
   }
   
-  .admin-sidebar li {
+  .admin-sidebar li:not(:last-child) {
     padding: 10px 0; /* Spacing between list items */
     cursor: pointer;
   }
@@ -30,11 +30,25 @@
   }
   
   /* Additional styling for active links and hover states */
-  .admin-sidebar li:hover,
-  .admin-sidebar li.active {
+  .admin-sidebar li:not(:last-child):hover,
+  .admin-sidebar li:not(:last-child).active {
     background-color: rgba(144,122,34,255); 
   }
 
   .admin-views{
     background-color:rgba(32,32,32,255);
+  }
+
+
+  .logout-button{
+    color: rgb(220, 20, 60); /* Crimson red */
+    font-size:1.2rem;
+    margin-left:auto;
+    transition: color ease-out 0.5s
+    
+  }
+
+  .logout-button:hover{
+    color: white; /* Crimson red */
+   
   }

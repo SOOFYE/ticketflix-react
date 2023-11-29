@@ -5,21 +5,27 @@ import { toast } from 'react-toastify';
 
 import "../../../assets/viewbookings.css"
 
+import Loading from '../../../components/Loading';
+
 function BookingDetails() {
 
 
     const [booking,setBooking] = useState([]);
     const { bookingid } = useParams()
     const navigate = useNavigate();
+    const [load,setLoad] = useState(true)
 
 
     const fetchData = async()=>{
+      setLoad(true)
         try{
-            const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/single/${bookingid}`);
-            setBooking(response);
+            const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/${bookingid}`);
+            setBooking(response.data);
+            console.log(response);
+            setLoad(false);
         }catch(error){
             toast.error("Error Fetching Booking Record")
-            
+            console.log(error)
             navigate("/admin/dashboard")
         }
     }
@@ -27,9 +33,8 @@ function BookingDetails() {
     useEffect(()=>{
         fetchData();
     },[])
-    return (
+    return !load?(
         <div className="booking-details-container">
-          <h2>Booking Details</h2>
           <div className="card">
             <h3>User ID</h3>
             <p>{booking.userId}</p>
@@ -47,6 +52,10 @@ function BookingDetails() {
             <p>{booking.movieTime}</p>
           </div>
           <div className="card">
+            <h3>Cinema Name</h3>
+            <p>{booking.cinemaName}</p>
+          </div>
+          <div className="card">
             <h3>Number of Tickets</h3>
             <p>{booking.numOfTickets}</p>
           </div>
@@ -61,9 +70,10 @@ function BookingDetails() {
                 <li key={index}>{seat}</li>
               ))}
             </ul>
+            
           </div>
         </div>
-      );
+      ):(<Loading/>);
 }
 
 export default BookingDetails

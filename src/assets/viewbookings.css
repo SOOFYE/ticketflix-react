@@ -17,11 +17,17 @@
   .card h3 {
     color: #333;
     margin-bottom: 10px;
+    font-size:1.4rem;
+    font-weight:700;
+    font-family:'kanit';
   }
   
   .card p, .card ul {
     color: #555;
     text-align: left;
+    font-weight:400;
+    font-family:'kanit';
+    font-size:1.2rem;
   }
   
   .card ul {

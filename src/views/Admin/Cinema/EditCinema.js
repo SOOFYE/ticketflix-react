@@ -9,6 +9,7 @@ import axios from 'axios'
 import { useParams,useNavigate } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
+import RotateSpinner from '../../../components/RotateSpinner';
 
 
 
@@ -22,9 +23,15 @@ function EditCinema() {
 
   const navigate = useNavigate()
 
+  const [isBLoading, setBLoading] = useState(false)
+
 
 
 const onSubmit = async (data) => {
+
+  if(isBLoading) return
+
+  setBLoading(true);
 
   const dataToSubmit = {
     name:data.name,
@@ -64,6 +71,8 @@ const onSubmit = async (data) => {
 
         
     }
+
+    setBLoading(false)
 
 
   };
@@ -129,7 +138,7 @@ const onSubmit = async (data) => {
     <input name="posterLink" {...register('location')} placeholder='Enter Location' required />
     </div>
 
-<button className='movie-submit-button' type='submit'>Edit Cinema</button>
+<button className='movie-submit-button flex justify-center items-center' type='submit'>{isBLoading ? <RotateSpinner/> :"Edit Cinema"}</button>
   </form>
   </div>
   )

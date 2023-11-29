@@ -7,6 +7,8 @@ import '../../../assets/adminview.css';
 import Dropdown from '../../../components/Dropdown';
 import { Link, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
+import Swal from 'sweetalert2';
+import NoData from '../../../components/NoData';
 
 function BookingView() {
   const [Bookings, setBookings] = useState([]);
@@ -21,7 +23,7 @@ function BookingView() {
   const customStyles = {
     table: {
       style: {
-        height: '200px',
+        height: '900px',
         backgroundColor: 'rgba(32,32,32,255)',
       },
     },
@@ -41,31 +43,24 @@ function BookingView() {
         backgroundColor: 'rgba(32,32,32,255)',
         color: 'white',
       },
+    }, noData: {
+      style: {
+        backgroundColor: 'rgba(32,32,32,255)', // Consistent background color for no data state
+        color: 'white',
+        padding: '24px',
+        textAlign: 'center',
+        height: '300px',
+      },
+    },progress: {
+      style: {
+        backgroundColor: 'rgba(32,32,32,255)',
+        color: 'white',
+        // ... additional styles if needed
+      },
     },
   };
 
-  const customStyles2 = {
-    control: (base, state) => ({
-      ...base,
-      backgroundColor: 'rgba(51,52,53,255)',
-      borderColor: 'rgba(51,52,53,255)',
-      color: 'rgba(215,213,211,255)',
-    }),
-    singleValue: (provided, state) => ({
-      ...provided,
-      color: 'rgba(215,213,211,255)',
-    }),
-    multiValueLabel: (styles, { data }) => ({
-      ...styles,
-      color: 'rgba(215,213,211,255)', // Set your desired color for the text of the multi-value selections
-    }),
-    multiValue: (styles, { data }) => ({
-      ...styles,
-      backgroundColor: 'rgba(144,122,34,255)',
-      color: 'rgba(215,213,211,255)',
-    }),
-  };
-
+ 
   const fetchBookings = async (option = 'nowshowing') => {
     try {
       setload(true);
@@ -73,7 +68,7 @@ function BookingView() {
         `https://cinemareservationsystemapi.azurewebsites.net/api/Booking`
       );
       setBookings(response.data);
-      console.log(response);
+      console.log(response)
       setload(false);
     } catch (error) {
       console.log(error);
@@ -93,27 +88,27 @@ function BookingView() {
   const columns = [
     {
       name: 'Booked By',
-      selector: (row) => row.userId,
+      selector: (row) => row.booking?.userEmail,
       sortable: true,
     },
     {
       name: 'Movie',
-      selector: (row) => row.movieName,
+      selector: (row) => row.booking.movieName,
       sortable: true,
     },
     {
       name: 'Date',
-      selector: (row) => row.movieDate,
+      selector: (row) => row.booking.movieDate,
       sortable: true,
     },
     {
       name: 'time',
-      selector: (row) => row.movieTime,
+      selector: (row) => row.booking.movieTime,
       sortable: true,
     },
     {
       name: 'Status',
-      selector: (row) => getStatus(row.movieTime),
+      selector: (row) => getStatus(row.booking.movieTime),
       sortable: true,
     },
     {
@@ -121,8 +116,8 @@ function BookingView() {
       cell: (row) => (
         <Dropdown
           options={[
-            { value: 'edit', label: 'Edit' },
             { value: 'view', label: 'View' },
+            { value: 'delete', label: 'Delete' },
           ]}
           onSelect={(option) => handleAction(option, row)}
           placeholder="Action"
@@ -132,10 +127,40 @@ function BookingView() {
     },
   ];
 
-  const handleAction = (option, row) => {
+  const handleAction = async (option, row) => {
     if (option.value === 'view') {
-      navigate(`/admin/detail-booking/${row.id}`);
+      navigate(`/admin/detail-booking/${row.bookingId}`);
     } 
+    if (option.value === 'delete') {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            // Your delete logic here
+            const response = await axios.delete(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/${row.bookingId}`)
+            Swal.fire(
+              'Deleted!',
+              'Booking has been deleted.',
+              'success'
+            )
+            fetchBookings();
+          } catch (error) {
+            Swal.fire(
+              'Error!',
+              'There was an error deleting the record.',
+              'error'
+            )
+          }
+        }
+      });
+    }
   };
 
   // Loadash debounce function
@@ -169,7 +194,7 @@ function BookingView() {
     <div>
       <div className="admin-header">
         <h1>Bookings</h1>
-        <div className="content-con form-group">
+        {/* <div className="content-con form-group">
         <input
         type="text"
         placeholder="Search by username"
@@ -177,36 +202,20 @@ function BookingView() {
         onChange={handleSearchChange}
         className="form-input" // Use your custom class for styling
       />
-          {/* <Select
-            options={[
-              { value: 'nowshowing', label: 'Now Showing' },
-              { value: 'comingsoon', label: 'Coming Soon' },
-            ]}
-            value={selectedStatus} // Set the selected value
-            onChange={(option) => {
-              fetchMovies(option.value);
-              setSelectedStatus(option);
-            }}
-            placeholder="Select Status"
-            className="admin-select"
-            styles={customStyles2}
-          /> */}
-          {/* <Link to="/admin/add-new-movie">
-            <button className="add-new-button"> + Add New Movie</button>
-          </Link> */}
-        </div>
+
+        </div> */}
       </div>
 
       <div className="table">
         <DataTable
           columns={columns}
           data={Bookings}
-          // pagination
           highlightOnHover
           responsive
           customStyles={customStyles}
           progressPending={load}
           progressComponent={<Loading />}
+          
         />
       </div>
     </div>

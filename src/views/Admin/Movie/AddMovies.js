@@ -7,6 +7,7 @@ import "../../../assets/addmovie.css"
 import axios from 'axios'
 
 import { ToastContainer, toast } from 'react-toastify';
+import RotateSpinner from '../../../components/RotateSpinner';
 
 function AddMovies() {
 
@@ -23,6 +24,8 @@ function AddMovies() {
     control,
     name: 'showTimings'
   });
+
+  const [isBLoading, setBLoading] = useState(false)
 
 
   const customStyles = {
@@ -55,40 +58,11 @@ const hourOptions = Array.from({ length: 24 }, (v, k) => ({ value: k, label: k.t
 const minuteOptions = Array.from({ length: 60 }, (v, k) => ({ value: k, label: k.toString().padStart(2, '0') }));
 
 
-const validateShowTimings = (showTimings) => {
-  const dateSet = new Set();
-  for (const showTiming of showTimings) {
-    // Extract the date value (assuming it's a string)
-    const dateString = showTiming.date.value;
-
-    // Check for duplicate dates
-    if (dateSet.has(dateString)) {
-        toast.error(`Duplicate date found: ${dateString}`);
-        return false;
-    }
-    dateSet.add(dateString);
-
-      // Check for duplicate timings within the same date
-      const timingSet = new Set();
-      for (const timing of showTiming.timings) {
-
-        if (!(/^\d{2}:\d{2}$/.test(timing))) {
-         toast.error(`Wrong timing Format: ${timing} on date ${showTiming.date.value.toString()}`); // Already in HH:MM format
-          return false;
-        }
-          if (timingSet.has(timing)) {
-              toast.error(`Duplicate timing found: ${timing} on date ${showTiming.date.value.toString()}`);
-              return false;
-          }
-          timingSet.add(timing);
-      }
-  }
-  return true; // validation passed
-};
-
-
-
   const onSubmit = async (data) => {
+  
+    if(isBLoading) return;
+
+    setBLoading(true);
 
     if (data.showTimings.length === 0 || data.showTimings===undefined) {
 
@@ -103,6 +77,7 @@ const validateShowTimings = (showTimings) => {
         theme: "light",
         });;
 
+        setBLoading(false);
         return
   }
 
@@ -153,6 +128,7 @@ const validateShowTimings = (showTimings) => {
         progress: undefined,
         theme: "light",
         });
+        
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.message, {
@@ -179,6 +155,9 @@ const validateShowTimings = (showTimings) => {
       showTimings: [] 
       // ...other fields
   });
+
+
+  setBLoading(false);
   };
 
   let dateOptions;
@@ -215,7 +194,7 @@ const validateShowTimings = (showTimings) => {
       const response = await axios.get(
         `https://cinemareservationsystemapi.azurewebsites.net/api/Cinema`
       );
-      const ci = response.data.map((value) => ({ value: value.name, label: value.name }));
+      const ci = response.data.map((value) => ({ value: value.cinemaId, label: value.cinemaName }));
 
       console.log(ci);
       setCinemas(ci);
@@ -481,7 +460,7 @@ const validateShowTimings = (showTimings) => {
   ))}
 </div>
 
-<button className='movie-submit-button' type='submit'>Add New Movie</button>
+<button className='movie-submit-button flex justify-center items-center' type='submit'>{isBLoading ? <RotateSpinner/> :"Add New Movie"}</button>
   </form>
   </div>
   )

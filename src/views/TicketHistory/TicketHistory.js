@@ -4,7 +4,11 @@ import axios from 'axios';
 import MyContext from '../../MyContext';
 import Loading from '../../components/Loading';
 
+import { logout } from '../../assets/svg';
+
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
 
 function TicketHistory() {
     const sampleHistory = {
@@ -26,11 +30,12 @@ function TicketHistory() {
       const [showDetails, setShowDetails] = useState(null);
       const [bookingDetails,setBookingDetails] = useState([]);
       const navigate = useNavigate();
+      
 
       const getBooking = async()=>{
         try{
             setload(true)
-            const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/${context.userName}`)
+            const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Booking/user/${context.userName}`)
             console.log(response)
             setBookingDetails(response.data)
             setload(false)
@@ -58,12 +63,22 @@ function TicketHistory() {
       },[])
 
 
+      const handleLogout = ()=>{
+        console.log(Cookies.get('token'))
+        if(Cookies.get('token')){
+            Cookies.remove('token', { path: '/' });
+            context.setisLoggedIn(false);
+            navigate('/')
+        }
+      }
+
+
 
 
       return (
         !load ? (
             <div className="history-container">
-            <div className='ticket-history-head'>Ticket History</div>
+            <div className='ticket-history-head'>Ticket History <button onClick={handleLogout}>Logout {logout()}</button></div>
                 {
                     bookingDetails.length ? 
                     bookingDetails.map((value, index) => (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useForm, Controller,useFieldArray } from 'react-hook-form';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import "../../../assets/addmovie.css"
 import axios from 'axios'
 
 import { ToastContainer, toast } from 'react-toastify';
+import RotateSpinner from '../../../components/RotateSpinner';
 
 function AddCinema() {
 
@@ -19,8 +20,14 @@ function AddCinema() {
     control,
   });
 
+  const [isBLoading, setBLoading] = useState(false)
+
 
   const onSubmit = async (data) => {
+
+    if(isBLoading) return
+
+  setBLoading(true);
 
     const dataToSubmit = {
       name:data.name,
@@ -61,6 +68,8 @@ function AddCinema() {
     }
 
     reset();
+
+    setBLoading(false)
    
   };
 
@@ -88,7 +97,7 @@ function AddCinema() {
 
 
 
-<button className='movie-submit-button' type='submit'>Add New Cinema</button>
+    <button className='movie-submit-button flex justify-center items-center' type='submit'>{isBLoading ? <RotateSpinner/> :"Add New Cinema"}</button>
   </form>
   </div>
   )
