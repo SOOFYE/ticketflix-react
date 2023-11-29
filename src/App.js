@@ -13,6 +13,7 @@ import TicketHistory from './views/TicketHistory/TicketHistory';
 import SideBar from './views/Admin/SideBar';
 import axios from 'axios';
 import { CookiesProvider } from 'react-cookie';
+import NotFound404 from './views/NotFound/NotFound404';
 
 
 function App() {
@@ -76,10 +77,9 @@ function App() {
               <Route path="/movie-info/:movieName" element={ <SingleMovie/> } />
               <Route path="/ticket-selection" element={ <TicketsSelection/> } />
               <Route path="/seat-selection" element={   <SeatSelection/>   } />
-              
               <Route path="/ticket-history" element={   <TicketHistory/>   } />
-         
               <Route path="/admin/*" element={   <SideBar/>   } />
+              <Route path="*" element={   <NotFound404/>   } />
               
               {/* <Route path="admin/add-new-movie" element={   <AddMovies/>   } />
               <Route path="admin/edit-movie/:movieName" element={   <EditMovie/>   } /> */}

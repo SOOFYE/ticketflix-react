@@ -17,6 +17,7 @@ import Loading from '../../components/Loading';
 import { logout } from '../../assets/svg';
 
 import Cookies from 'js-cookie';
+import NotFound404 from '../NotFound/NotFound404';
 
 
 
@@ -80,7 +81,7 @@ function SideBar() {
 
           <Route path="scan-qr" element={<ScanQr/>} />
 
-          
+          <Route path="*" element={<NotFound404/>} />
 
 
         </Routes>
