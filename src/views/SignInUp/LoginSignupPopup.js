@@ -43,7 +43,7 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                 context.setName(response.data.name)
                 const endOfDay = new Date();
                 endOfDay.setHours(23, 59, 59, 999); // Set the time to the end of the current day
-                Cookies.set('token',response.data.token, { expires: endOfDay, path: '/' });
+                Cookies.set('token',response.data.token, { path: '/' });
                 toast.success('Login Successfull')
                 onClose()
            

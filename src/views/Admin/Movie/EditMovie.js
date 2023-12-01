@@ -10,6 +10,7 @@ import { useParams,useNavigate } from 'react-router-dom';
 
 import {toast } from 'react-toastify';
 import RotateSpinner from '../../../components/RotateSpinner';
+import Loading from '../../../components/Loading';
 
 
 
@@ -20,6 +21,9 @@ function EditMovie() {
   };
 
   const [cinemas, setCinemas] = useState([]);
+  let CINEMAS_PLZ = []
+
+  const [load,setload] = useState(false)
 
 
     const { movieName } = useParams()
@@ -132,8 +136,8 @@ const onSubmit = async (data) => {
 
 
     try {
-      const response = await axios.put(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${movieName}`, dataToSubmit);
-      console.log(response)
+      await axios.put(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${movieName}`, dataToSubmit);
+      
       toast.success('Movie Successfully Edited', {
         position: "top-right",
         autoClose: 5000,
@@ -192,12 +196,13 @@ const onSubmit = async (data) => {
 
   const fetchData = async() => {
     try {
-      // setload(true);
+     setload(true)
       const response = await axios.get(`https://cinemareservationsystemapi.azurewebsites.net/api/Movies/${movieName}`)
-      
       if (response.data && response.data.length > 0) {
         const movie = response.data[0]; // Assuming you want to prefill with the first movie details
         
+
+      
         // Transforming data to match form's structure
         const transformedData = {
   
@@ -214,21 +219,23 @@ const onSubmit = async (data) => {
           status: { value: movie.status, label: movie.status.charAt(0).toUpperCase() + movie.status.slice(1) },
           showTimings:  Object.entries(movie.showTimings).flatMap(([cinemaName, dates]) =>
           Object.entries(dates).map(([date, timings]) => ({
-            cinema: {value: cinemas.find((value)=>value.label===cinemaName).value, label:cinemaName}, // This will be 'Nuplex', 'VOX', etc.
+            cinema: {value: CINEMAS_PLZ.find((value)=>value.label===cinemaName).value, label:cinemaName}, // This will be 'Nuplex', 'VOX', etc.
             date: {value: date, label: date},         // The specific date for the timings
             timings: timings.map(t=>({value:t,label:t}))    // The array of timings for that date
           }))
         )
         };
 
-        console.log("hello",transformedData)
+       
         
         reset(transformedData);
+
+        setload(false)
       }
   
       setMovieList(response.data);
-      console.log(response);
-      // setload(false);
+      
+
     } catch (error) {
       console.log(error);
     }
@@ -251,7 +258,7 @@ const onSubmit = async (data) => {
         `https://cinemareservationsystemapi.azurewebsites.net/api/Cinema`
       );
       const ci = response.data.map((value) => ({ value: value.cinemaId, label: value.cinemaName }));
-
+      CINEMAS_PLZ = ci;
       console.log(ci);
       setCinemas(ci);
       console.log(response);
@@ -262,16 +269,15 @@ const onSubmit = async (data) => {
 
   useEffect(()=>{
     fetchCinemas();
-  },[])
-
-
-  useEffect(()=>{
     fetchData();
+     
+   
   },[])
 
 
 
-  return (
+
+  return !load?(
     <div className='form-container'>
         <div className='admin-header mb-5'>
           <h1>Edit Movie</h1> 
@@ -528,7 +534,7 @@ const onSubmit = async (data) => {
 <button className='movie-submit-button flex justify-center items-center' type='submit'>{isBLoading ? <RotateSpinner/> :"Edit Movie"}</button>
   </form>
   </div>
-  )
+  ):(<Loading/>)
 }
 
 export default EditMovie
