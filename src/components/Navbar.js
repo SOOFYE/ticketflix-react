@@ -34,7 +34,7 @@ function Navbar() {
     }
 
         if(context.role==='admin'){
-            navigate('/admin/view-dashboard')
+            navigate('/admin')
             return;
             }
 

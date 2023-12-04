@@ -52,7 +52,11 @@ function SideBar() {
     if(Cookies.get('token')){
         // Cookies.remove('token', { path: '/' });
         try{
-          await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users/logout")
+          await axios.post(
+            "https://cinemareservationsystemapi.azurewebsites.net/api/Users/logout", 
+            {}, // Data payload, if any, for the POST request
+            { withCredentials: true } // Axios request configuration
+          );
           context.setisLoggedIn(false);
           context.setUserName('')
           context.setRole('')

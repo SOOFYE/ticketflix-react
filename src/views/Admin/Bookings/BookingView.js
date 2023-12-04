@@ -100,11 +100,11 @@ function BookingView() {
       selector: (row) => row.booking.movieTime,
       sortable: true,
     },
-    {
-      name: 'Status',
-      selector: (row) => getStatus(row.booking.movieTime),
-      sortable: true,
-    },
+    // {
+    //   name: 'Status',
+    //   selector: (row) => getStatus(row.booking.movieTime),
+    //   sortable: true,
+    // },
     {
       name: 'Actions',
       cell: (row) => (
