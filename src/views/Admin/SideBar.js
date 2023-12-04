@@ -14,10 +14,13 @@ import BookingDetails from './Bookings/BookingDetails';
 import ScanQr from './QRCode/ScanQr';
 import Loading from '../../components/Loading';
 
+
 import { logout } from '../../assets/svg';
 
 import Cookies from 'js-cookie';
 import NotFound404 from '../NotFound/NotFound404';
+
+import axios from 'axios';
 
 
 
@@ -44,15 +47,20 @@ function SideBar() {
   },[context,navigate])
 
 
-  const handleLogout = ()=>{
+  const handleLogout = async()=>{
     console.log(Cookies.get('token'))
     if(Cookies.get('token')){
-        Cookies.remove('token', { path: '/' });
-        context.setisLoggedIn(false);
-        context.setUserName('')
-        context.setRole('')
-        context.setName('')
-        navigate('/')
+        // Cookies.remove('token', { path: '/' });
+        try{
+          await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users/logout")
+          context.setisLoggedIn(false);
+          context.setUserName('')
+          context.setRole('')
+          context.setName('')
+          navigate('/')
+      }catch(error){
+          console.log(error)
+      }
     }
   }
 
@@ -61,7 +69,7 @@ function SideBar() {
     <div className='sidebar-container'>
       <div className="admin-sidebar">
         <ul>
-        <li><Link to="/admin/view-dashboard">Dashboard</Link></li>
+        {/* <li><Link to="/admin/view-dashboard">Dashboard</Link></li> */}
         <li><Link to="/admin/view-booking">Bookings</Link></li>
         <li><Link to="/admin/view-cinema">Cinemas</Link></li>
         <li><Link to="/admin/view-movie">Movies</Link></li>
@@ -71,6 +79,9 @@ function SideBar() {
       </div>
       <div className='admin-views'>
         <Routes>
+
+          
+
           <Route path="view-movie" element={<MovieView/>} />
           <Route path="add-new-movie" element={<AddMovies/>} />
           <Route path="edit-movie/:movieName" element={<EditMovie/>} />
@@ -83,6 +94,7 @@ function SideBar() {
           <Route path="detail-booking/:bookingid" element={<BookingDetails/>} />
 
           <Route path="scan-qr" element={<ScanQr/>} />
+
 
           <Route path="*" element={<NotFound404/>} />
 

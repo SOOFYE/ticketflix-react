@@ -51,15 +51,21 @@ function TicketHistory() {
       },[context.userName,navigate])
 
 
-      const handleLogout = ()=>{
+      const handleLogout = async ()=>{
         console.log(Cookies.get('token'))
         if(Cookies.get('token')){
-            Cookies.remove('token', { path: '/' });
-            context.setisLoggedIn(false);
-            context.setUserName('')
-            context.setRole('')
-            context.setName('')
-            navigate('/')
+            // Cookies.remove('token', { path: '/' });
+                try{
+                    await axios.post("https://cinemareservationsystemapi.azurewebsites.net/api/Users/logout")
+                    context.setisLoggedIn(false);
+                    context.setUserName('')
+                    context.setRole('')
+                    context.setName('')
+                    navigate('/')
+                }catch(error){
+                    console.log(error)
+                }
+           
         }
       }
 
