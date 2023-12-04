@@ -56,6 +56,9 @@ function TicketHistory() {
         if(Cookies.get('token')){
             Cookies.remove('token', { path: '/' });
             context.setisLoggedIn(false);
+            context.setUserName('')
+            context.setRole('')
+            context.setName('')
             navigate('/')
         }
       }

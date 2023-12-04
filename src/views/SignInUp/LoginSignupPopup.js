@@ -43,7 +43,14 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                 context.setName(response.data.name)
                 const endOfDay = new Date();
                 endOfDay.setHours(23, 59, 59, 999); // Set the time to the end of the current day
-                Cookies.set('token',response.data.token, { path: '/' });
+                Cookies.set('token',response.data.token,{
+                    path: '/',
+                    domain: 'cinemareservationsystemapi.azurewebsites.net', // Specify the domain, replace with your domain
+                    secure: true, // If you're using HTTPS, set this to ensure cookies are transmitted securely
+                    httpOnly: false, // Set to true if you want to prevent client-side access to the cookie
+                    sameSite: 'None', // Can be 'Strict', 'Lax', or 'None'. Adjust according to your cross-site request needs
+                    expires: endOfDay // Set the expiration of the cookie in days. Adjust as needed
+                  });
                 toast.success('Login Successfull')
                 onClose()
            
@@ -70,7 +77,14 @@ const LoginSignupPopup = ({ isVisible, onClose }) => {
                 context.setName(response.data.name)
                 const endOfDay = new Date();
                 endOfDay.setHours(23, 59, 59, 999); // Set the time to the end of the current day
-                Cookies.set('token',response.data.token, { expires: endOfDay, path: '/' });
+                Cookies.set('token',response.data.token, {
+                    path: '/',
+                    domain: 'cinemareservationsystemapi.azurewebsites.net', // Specify the domain, replace with your domain
+                    secure: true, // If you're using HTTPS, set this to ensure cookies are transmitted securely
+                    httpOnly: false, // Set to true if you want to prevent client-side access to the cookie
+                    sameSite: 'None', // Can be 'Strict', 'Lax', or 'None'. Adjust according to your cross-site request needs
+                    expires: endOfDay // Set the expiration of the cookie in days. Adjust as needed
+                  });
                 toast.success('Signup Successfull')
                 onClose()
             }
