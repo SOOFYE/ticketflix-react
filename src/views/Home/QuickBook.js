@@ -82,6 +82,9 @@ function QuickBook({movieList}) {
 
   const handleMovieSelection = (selectedOption) => {
     setSelectedMovies(selectedOption);
+    setSelectedCinema(null);
+    setSelectedDate(null);
+    setselectedTime(null);
     const movieObject = movieList.find(value => value.movieName === selectedOption.value);
     if (movieObject) {
       const cinemas = Object.keys(movieObject.showTimings).map(cinema => ({ value: cinema, label: cinema }));
@@ -94,6 +97,8 @@ function QuickBook({movieList}) {
 
   const handleCinemaSelection = (selectedOption) =>{
     setSelectedCinema(selectedOption);
+    setSelectedDate(null);
+    setselectedTime(null);
     const movieObject = movieList.find(value => value.movieName === selectedMovies.value); 
     if(movieObject){
       const dates = Object.keys(movieObject.showTimings[selectedOption.value]).map(date => ({ value: date, label: date }));
@@ -103,7 +108,8 @@ function QuickBook({movieList}) {
   }
 
   const handleDateSelection = (selectedOption) => {
-    setSelectedDate(selectedOption)
+    setSelectedDate(selectedOption);
+    setselectedTime(null);
     const movieObject = movieList.find(value => value.movieName === selectedMovies.value);
     if (movieObject) {
       const times = movieObject.showTimings[selectedCinema.value][selectedOption.value].map(time => ({ value: time, label: convertTo12Hour(time) }));
@@ -168,6 +174,7 @@ function QuickBook({movieList}) {
           onChange={handleMovieSelection}
           styles={selectStyles} //
           menuPlacement="top"
+          value={selectedMovies}
         />
   </div>
 
@@ -178,7 +185,7 @@ function QuickBook({movieList}) {
       placeholder="Select cinema"
       styles={selectStyles} //
       menuPlacement="top"
-      // isDisabled={dateOptions.length<1?true:false}
+      value={selectedCinema}
     />
   </div>
 
@@ -190,7 +197,7 @@ function QuickBook({movieList}) {
       styles={selectStyles} //
       menuPlacement="top"
       isSearchable={false}
-      // isDisabled={dateOptions.length<1?true:false}
+      value={selectedDate}
     />
   </div>
 
@@ -202,7 +209,7 @@ function QuickBook({movieList}) {
       styles={selectStyles} //
       menuPlacement="top"
       isSearchable={false}
-      // isDisabled={timeOptions.length<1?true:false}
+      value={selectedTime}
     />
   </div>
   <div>
