@@ -53,8 +53,7 @@ function TicketHistory() {
 
       const handleLogout = async ()=>{
         console.log(Cookies.get('token'))
-        if(Cookies.get('token')){
-            // Cookies.remove('token', { path: '/' });
+       
                 try{
                     await axios.post(
                         "https://cinemareservationsystemapi.azurewebsites.net/api/Users/logout", 
@@ -69,8 +68,6 @@ function TicketHistory() {
                 }catch(error){
                     console.log(error)
                 }
-           
-        }
       }
 
 
