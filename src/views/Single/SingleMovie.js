@@ -174,7 +174,7 @@ function SingleMovie() {
         </div>
       )}
 
-      <div className='date_tabs'>
+      {movieDetails.status === 'nowshowing' && (<> <div className='date_tabs'>
         {showDates.map((date, index) => (
           <React.Fragment key={index}>
             <button onClick={() => handleDateChanges(date)} className='date_buttons'>
@@ -204,7 +204,7 @@ function SingleMovie() {
   ) : (
     <div className='text-white'>No showtimes available for this date.</div>
   )}
-</div>
+</div></>)}
 
       </div>
 </div>
