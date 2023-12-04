@@ -34,7 +34,7 @@ function Navbar() {
     }
 
         if(context.role==='admin'){
-            navigate('/admin')
+            navigate('/admin/view-booking')
             return;
             }
 

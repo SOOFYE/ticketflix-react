@@ -36,8 +36,8 @@ function BookingDetails() {
     return !load?(
         <div className="booking-details-container">
           <div className="card">
-            <h3>User ID</h3>
-            <p>{booking.userId}</p>
+            <h3>Full name</h3>
+            <p>{booking.userName}</p>
           </div>
           <div className="card">
             <h3>Movie Name</h3>
